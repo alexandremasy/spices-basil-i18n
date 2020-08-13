@@ -1,0 +1,37 @@
+{
+  "author": "Alexandre <hello@alexandremasy.com>",
+  "description": "@spices/basil plugin to ease the i18n process",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^14.0.0",
+    "ora": "^5.0.0",
+    "rollup": "^2.21.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "semver": "^7.3.2"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "main": "dist/spices-basil-i18n.min.js.js",
+  "module": "dist/spices-basil-i18n.esm.min.js",
+  "name": "@spices/basil-i18n",
+  "nodemonConfig": {
+    "exec": "yarn bundle",
+    "watch": "src"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:alexandremasy/spices-basil-i18n.git"
+  },
+  "scripts": {
+    "bundle": "rollup -c",
+    "ci": "node ./scripts/ci.js",
+    "start": "nodemon",
+    "prepublish": "yarn bundle"
+  },
+  "version": "1.0.0"
+}
