@@ -1,28 +1,37 @@
-# Basil - Sayl Admin
-> @spices/basil plugin to ease the sayl admin
+# Basil - i18n plugin
+> @spices/basil plugin to ease the i18n process
 
 ```JS
 import { basil } from '@spices/basil'
-import { install, sayl } from '@spices/basil-sayl'
+import { install as i18n } from '@spices/basil-i18n'
 
-basil.use( install );
+basil.use( i18n );
 ```
 
 ## Utilities
+A locale encompass a lang and a country (e.g. en-US). 
+From there, the country and
 
-- `hasExtension(slug):boolean` Whether or not an extension is active
-  - sayl.OAT
-  - sayl.LIGHTSPEED
+**Locale**
+- `set/get locale:Locale` The current locale
+- `set/get locales:Array` The other locales
 
-- `hasModule(fqn):boolean` Whether or not a module is active
-  - sayl.AUDIENCE
-  - sayl.COMMERCE
-  - sayl.CUSTOMERS
-  - sayl.CMS
-  - sayl.EATIN
-  - sayl.LIGHTSPEED
-  - sayl.SETTINGS
-  - sayl.STOREFRONT
+**Lang**
+Based on the `BasilLang` class
 
-- `setConfig(value:Object)` Define the configuration file
+- `get registeredLangs:Array.<Lang>`
 
+**Countries**
+Based on the `BasilCountry` class
+
+- `get registeredCountries:Array.<Country>` The list of all the registered countries. 
+- `get/set countries` Get/Set the application countries
+- `addCountry(value:Country)` Add a country to the list of valid countries. By default all the countries in the ISO3166 are available. It will add the country to list of registered countries, not the application countries.
+
+**Number**
+
+- `toCurrency(value:number, [signed:boolean = false]):string`
+- `toRangeCurrency(min:number, max, [signed:boolean = false]):string`
+
+**Date**
+- `$date(value:Date, format:'date')`
