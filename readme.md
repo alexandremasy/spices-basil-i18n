@@ -10,22 +10,42 @@ basil.use( i18n );
 
 ## Utilities
 A locale encompass a lang and a country (e.g. en-US). 
-From there, the country and
+From there, the country and currency
+
+```JS
+class BasilLocale{
+    constuctor(input:String),
+
+    get country:BasilCountry
+    get lang:BasilLang
+    get langtag:String // en-US
+    get iso:String //en_US
+}
+
+```
 
 **Locale**
 - `set/get locale:Locale` The current locale
 - `set/get locales:Array` The other locales
 
+
 **Lang**
 Based on the `BasilLang` class
+```JS
+class BasilLang{
+    constructor(input:String)
+    get 
+}
+```
 
 - `get registeredLangs:Array.<Lang>`
 
 **Countries**
 Based on the `BasilCountry` class
 
-- `get registeredCountries:Array.<Country>` The list of all the registered countries. 
+- `set/get country` The current country
 - `get/set countries` Get/Set the application countries
+- `get registeredCountries:Array.<Country>` The list of all the registered countries. 
 - `addCountry(value:Country)` Add a country to the list of valid countries. By default all the countries in the ISO3166 are available. It will add the country to list of registered countries, not the application countries.
 
 **Number**
