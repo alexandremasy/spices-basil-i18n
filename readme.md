@@ -30,6 +30,8 @@ Based on the `BasilCountry` class
 
 **Number**
 
+@TODO prepare the list of currencies with their symbol and iso representation. e.g '€' => 'EUR'
+
 - `toCurrency(value:number, [signed:boolean = false]):string`
 - `toRangeCurrency(min:number, max, [signed:boolean = false]):string`
 
