@@ -11,8 +11,8 @@ const ISO639_3 = 'ISO639-3'; // eng
  * Expressed usually in two or three characters.
  * @see https://www.iso.org/obp/ui#iso:pub:PUB500001:en
  */
-const ISO3166_2 = 'ISO3166-2'; // us
-const ISO3166_3 = 'ISO3166-3'; // usa
+const ISO3166_2 = 'ISO3166-2'; // US
+const ISO3166_3 = 'ISO3166-3'; // USA
 
 /**
  * The combinations of the two sets is described in 
