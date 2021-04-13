@@ -20,6 +20,11 @@ export default (basil) => {
     let isStyleUnit = style === NumberStyles.UNIT
     let requestedUnit = unit
 
+    // Validate the value is a number
+    if (!basil.isNumber(value)){
+      return console.error(`@spices/basil: Invalid value for the number formatter: ${value}`)
+    }
+
     // Sign validation
     if (!NumberSigns.isValid(sign)){
       console.warn(`@spices/basil: Invalid sign: ${sign}. Fallback to default value`)
