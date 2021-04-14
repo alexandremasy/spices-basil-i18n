@@ -1,3 +1,4 @@
+import Formats from '../vos/formats'
 import Currencies from '../vos/number-currencies'
 import NumberSigns from '../vos/number-signs'
 import NumberStyles from '../vos/number-styles'
@@ -30,7 +31,12 @@ export default (basil, scope) => {
       currency = Currencies.EURO
     }
 
-    // Invalid display
+    // Display validation
+    display = basil.isNil(display) ? Formats.SYMBOL : display
+    if (![Formats.SYMBOL, Formats.NARROW_SYMBOL, Formats.CODE, Formats.NAME].includes(display)) {
+      console.warn(`@spices/basil: Invalid display: ${display} for the currency formatter. Fallback to default value`)
+      display = Formats.SYMBOL
+    }
 
     // Fomatting a proper currency
     let options = {
@@ -45,8 +51,30 @@ export default (basil, scope) => {
     if (fraction) { options.maximumFractionDigits = Math.min(20, Math.max(fraction, 0)) }
     if (significant) { options.maximumSignificantDigits = Math.min(21, Math.max(significant, 1)) }
 
-    console.log(options)
     let ret = new Intl.NumberFormat(locale, options).format(value)
+
+    // Custom currency
+    if (requestedCurrency != currency){
+      let key = '€'
+      switch (display) {
+        case Formats.SYMBOL:
+        case Formats.NARROW_SYMBOL:
+        default:
+          key = '€'
+          break
+  
+        case Formats.CODE:
+          key = 'EUR'
+          break
+  
+        case Formats.NAME:
+          key = value > 1 ? 'euros' : 'euro'
+          break
+      }
+
+      ret = ret.replace(key, requestedCurrency)
+    }
+
     return ret
   }
 
