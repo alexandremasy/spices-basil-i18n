@@ -23,7 +23,7 @@ export default (basil, scope) => {
     if (!basil.isNil(minute)){ options.minute = minute }
     if (!basil.isNil(month)){ options.month = month }
     if (!basil.isNil(second)){ options.second = second }
-    if (!basil.isNil(timezone)){ options.timezone = timezone }
+    if (!basil.isNil(timezone)){ options.timeZoneName = timezone }
     if (!basil.isNil(weekday)){ options.weekday = weekday }
     if (!basil.isNil(year)){ options.year = year }
     options.hourCycle = 'h24'
@@ -34,10 +34,11 @@ export default (basil, scope) => {
     if (options.minute == Formats.NONE){ delete options.minute }
     if (options.month == Formats.NONE){ delete options.month }
     if (options.second == Formats.NONE){ delete options.second }
-    if (options.timezone == Formats.NONE){ delete options.timezone }
+    if (options.timeZoneName == Formats.NONE){ delete options.timeZoneName }
     if (options.weekday == Formats.NONE){ delete options.weekday }
     if (options.year == Formats.NONE){ delete options.year }
 
+    console.log(options)
     let ret = new Intl.DateTimeFormat(locale, options).format(value)
     ret = ret.replace(',', '')
     ret = ret.formatter ? ret.formatter(ret) : ret

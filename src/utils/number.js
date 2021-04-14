@@ -39,7 +39,8 @@ export default (basil, scope) => {
     }
     
     // Display validation
-    if (basil.isNil(display) || ![Formats.LONG, Formats.SHORT, Formats.NARROW].includes(display)){
+    display = basil.isNil(display) ? Formats.SHORT : display
+    if (![Formats.LONG, Formats.SHORT, Formats.NARROW].includes(display)){
       console.warn(`@spices/basil: Invalid display: ${display} for the number formatter. Fallback to default value`)
       display = Formats.SHORT
     }
@@ -62,7 +63,7 @@ export default (basil, scope) => {
     if (fraction){ options.maximumFractionDigits = Math.min(20, Math.max(fraction, 0)) }
     if (significant){ options.maximumSignificantDigits = Math.min(21, Math.max(significant, 1)) }
     
-    console.log(options)
+    // console.log(options)
     let ret = new Intl.NumberFormat(locale, options).format(value)
     
     // Unit validation
