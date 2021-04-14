@@ -17,7 +17,7 @@ export default (basil, scope) => {
    * @param {Number}  options.value - The value to format
    * @returns 
    */
-  const number = ({ compact = false, display = Formats.SHORT, group = true, locale = 'en', fraction = 2, significant = 21, sign = NumberSigns.AUTO, style = NumberStyles.DECIMAL, unit, value }) => {
+  const number = ({ compact = false, display = Formats.SHORT, fraction = 2, group = true, locale = 'en', sign = NumberSigns.AUTO, significant = 21, style = NumberStyles.DECIMAL, unit, value }) => {
     let isStyleUnit = style === NumberStyles.UNIT
     let requestedUnit = unit
 

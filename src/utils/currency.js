@@ -5,7 +5,7 @@ import NumberStyles from '../vos/number-styles'
 
 export default (basil, scope) => {
 
-  const currency = ({ compact = false, currency = Currencies.EURO, display, fraction = 2, group = true, locale = 'en', significant = 21, sign = NumberSigns.AUTO, value }) => {
+  const currency = ({ compact = false, currency = Currencies.EURO, display = Formats.SYMBOL, fraction = 2, group = true, locale = 'en', significant = 21, sign = NumberSigns.AUTO, value }) => {
     let requestedCurrency = currency
 
     // No value
