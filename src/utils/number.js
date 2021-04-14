@@ -16,7 +16,7 @@ export default (basil) => {
    * @param {Number}  options.value - The value to format
    * @returns 
    */
-  const number = ({ compact = false, group = true, locale = "en", fraction = 2, significant = 21, sign, style, unit, value }) => {
+  const number = ({ compact = false, group = true, locale = 'en', fraction = 2, significant = 21, sign = NumberSigns.AUTO, style = NumberStyles.DECIMAL, unit, value }) => {
     let isStyleUnit = style === NumberStyles.UNIT
     let requestedUnit = unit
 
@@ -32,9 +32,9 @@ export default (basil) => {
     }
     
     // Style validation
-    if (!NumberStyles.isValid(style) && style !== NumberStyles.CURRENCY){
+    if (!NumberStyles.isValid(style) || style === NumberStyles.CURRENCY){
+      console.warn(`@spices/basil: Invalid style: ${style} for the number formatter. Fallback to default value`)
       style = NumberStyles.DECIMAL
-      console.warn(`@spices/basil: Invalid style: ${sign} for the number formatter. Fallback to default value`)
     }
 
     // Unit validation
@@ -65,7 +65,20 @@ export default (basil) => {
     return ret
   }
 
+  const percent = (options) => {
+    options.style = NumberStyles.PERCENT
+    return number(options)
+  }
+
+  const unit = (options) => {
+    options.style = NumberStyles.UNIT
+    return number(options)
+  }
+
   basil.number = number
+  basil.percent = percent
+  basil.unit = unit
+
   basil.NumberSigns = NumberSigns
   basil.NumberStyles = NumberStyles
   basil.NumberUnits = NumberUnits

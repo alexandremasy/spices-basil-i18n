@@ -1,6 +1,7 @@
+import currency from './utils/currency'
+import date from './utils/date'
 import locale from './utils/locale'
 import number from './utils/number'
-import date from './utils/date'
 
 import BasilLocale from './vos/locale'
 
@@ -11,9 +12,10 @@ export default {
     }
 
     // Utils
+    currency(basil);
+    date(basil);
     locale(basil);
     number(basil);
-    date(basil);
 
     // Mixins
 

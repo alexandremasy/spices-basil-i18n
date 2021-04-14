@@ -4,7 +4,7 @@ import DateStyles from '../vos/date-styles'
 
 export default (basil) => {
 
-  const date = ({ day, era, hour, locale = 'en', minute, month, second, style, timezone, value, weekday, year}) => {
+  const date = ({ day, era, hour, locale = 'en', minute, month, second, style = DateStyles.DATE, timezone, value, weekday, year}) => {
     // Validate the value is a date
     if (!basil.isDate(value)){
       console.error(`@spices/basil: Invalid value for the date formatter. Must be a date. ${value}`)
@@ -46,7 +46,20 @@ export default (basil) => {
     return ret
   }
 
+  const datetime = (options) => {
+    options.style = DateStyles.DATETIME
+    return date(options)
+  }
+
+  const time = (options) => {
+    options.style = DateStyles.TIME
+    return date(options)
+  }
+
   basil.date = date
+  basil.datetime = datetime
+  basil.time = time
+
   basil.DateComponents = DateComponents
   basil.DateFormats = DateFormats
   basil.DateStyles = DateStyles
