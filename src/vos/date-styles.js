@@ -1,28 +1,28 @@
-import DateFormats from './date-formats'
+import Formats from './formats'
 
 class $DateStyle {
   constructor({ day, era, formatter, hour, minute, month, name, second, timezone, weekday, year }){
-    this.day = day || DateFormats.NONE
-    this.era = era || DateFormats.NONE
+    this.day = day || Formats.NONE
+    this.era = era || Formats.NONE
     this.formatter = formatter ? formatter : (value) => value 
-    this.hour = hour || DateFormats.NONE
-    this.minute = minute || DateFormats.NONE
-    this.month = month || DateFormats.NONE
+    this.hour = hour || Formats.NONE
+    this.minute = minute || Formats.NONE
+    this.month = month || Formats.NONE
     this.name = name
-    this.second = second || DateFormats.NONE
-    this.timezone = timezone || DateFormats.NONE
-    this.weekday = weekday || DateFormats.NONE
-    this.year = year || DateFormats.NONE
+    this.second = second || Formats.NONE
+    this.timezone = timezone || Formats.NONE
+    this.weekday = weekday || Formats.NONE
+    this.year = year || Formats.NONE
   }
 }
 
 const DateStyles = {}
 
-DateStyles.DATE = new $DateStyle({ name: 'date', year: DateFormats.NUMERIC, month: DateFormats.DIGIT2, day: DateFormats.DIGIT2 })
-DateStyles.DATETIME = new $DateStyle({ name: 'datetime', year: DateFormats.NUMERIC, month: DateFormats.DIGIT2, day: DateFormats.DIGIT2, hour: DateFormats.DIGIT2, minute: DateFormats.DIGIT2 })
-DateStyles.MONTH = new $DateStyle({ name: 'month', month: DateFormats.SHORT })
-DateStyles.TIME = new $DateStyle({ name: 'time', hour: DateFormats.DIGIT2, minute: DateFormats.DIGIT2 })
-DateStyles.WEEKDAY = new $DateStyle({ name: 'weekday', weekday: DateFormats.SHORT })
+DateStyles.DATE = new $DateStyle({ name: 'date', year: Formats.NUMERIC, month: Formats.DIGIT2, day: Formats.DIGIT2 })
+DateStyles.DATETIME = new $DateStyle({ name: 'datetime', year: Formats.NUMERIC, month: Formats.DIGIT2, day: Formats.DIGIT2, hour: Formats.DIGIT2, minute: Formats.DIGIT2 })
+DateStyles.MONTH = new $DateStyle({ name: 'month', month: Formats.SHORT })
+DateStyles.TIME = new $DateStyle({ name: 'time', hour: Formats.DIGIT2, minute: Formats.DIGIT2 })
+DateStyles.WEEKDAY = new $DateStyle({ name: 'weekday', weekday: Formats.SHORT })
 
 DateStyles.ALL = [
   DateStyles.DATE,

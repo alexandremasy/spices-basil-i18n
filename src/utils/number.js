@@ -1,8 +1,9 @@
 import NumberSigns from '../vos/number-signs'
 import NumberStyles from '../vos/number-styles'
 import NumberUnits from '../vos/number-units'
+import Formats from '../vos/formats'
 
-export default (basil) => {
+export default (basil, scope) => {
 
   /**
    * Format the given number with the intl.NumberFormatter
@@ -16,7 +17,7 @@ export default (basil) => {
    * @param {Number}  options.value - The value to format
    * @returns 
    */
-  const number = ({ compact = false, group = true, locale = 'en', fraction = 2, significant = 21, sign = NumberSigns.AUTO, style = NumberStyles.DECIMAL, unit, value }) => {
+  const number = ({ compact = false, display = Formats.SHORT, group = true, locale = 'en', fraction = 2, significant = 21, sign = NumberSigns.AUTO, style = NumberStyles.DECIMAL, unit, value }) => {
     let isStyleUnit = style === NumberStyles.UNIT
     let requestedUnit = unit
 
@@ -36,6 +37,12 @@ export default (basil) => {
       console.warn(`@spices/basil: Invalid style: ${style} for the number formatter. Fallback to default value`)
       style = NumberStyles.DECIMAL
     }
+    
+    // Display validation
+    if (basil.isNil(display) || ![Formats.LONG, Formats.SHORT, Formats.NARROW].includes(display)){
+      console.warn(`@spices/basil: Invalid display: ${display} for the number formatter. Fallback to default value`)
+      display = Formats.SHORT
+    }
 
     // Unit validation
     // For a custom unit, set the unit to liter and replace the symbol by the custom one
@@ -51,9 +58,11 @@ export default (basil) => {
     }
     
     if (isStyleUnit){ options.unit = unit }
+    if (isStyleUnit && display){ options.unitDisplay = display }
     if (fraction){ options.maximumFractionDigits = Math.min(20, Math.max(fraction, 0)) }
     if (significant){ options.maximumSignificantDigits = Math.min(21, Math.max(significant, 1)) }
     
+    console.log(options)
     let ret = new Intl.NumberFormat(locale, options).format(value)
     
     // Unit validation
@@ -75,11 +84,7 @@ export default (basil) => {
     return number(options)
   }
 
-  basil.number = number
-  basil.percent = percent
-  basil.unit = unit
-
-  basil.NumberSigns = NumberSigns
-  basil.NumberStyles = NumberStyles
-  basil.NumberUnits = NumberUnits
+  scope.number = number
+  scope.percent = percent
+  scope.unit = unit
 }

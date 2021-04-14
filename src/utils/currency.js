@@ -2,9 +2,11 @@ import Currencies from '../vos/number-currencies'
 import NumberSigns from '../vos/number-signs'
 import NumberStyles from '../vos/number-styles'
 
-export default (basil) => {
+export default (basil, scope) => {
 
   const currency = ({ compact = false, currency = Currencies.EURO, display, fraction = 2, group = true, locale = 'en', significant = 21, sign = NumberSigns.AUTO, value }) => {
+    let requestedCurrency = currency
+
     // No value
     if (basil.isNil(value)){
       console.error(`@spices/basil: A value must be provided for the currency formatter: ${value}`)
@@ -23,19 +25,12 @@ export default (basil) => {
       return
     }
 
-    // Invalid currency => Number with a custom unit
+    // Invalid currency => EURO and replace with custom value
     if (!Currencies.isValid(currency)){
-      return basil.unit({
-        compact,
-        group,
-        locale,
-        fraction,
-        significant,
-        sign, 
-        unit: currency,
-        value
-      })
+      currency = Currencies.EURO
     }
+
+    // Invalid display
 
     // Fomatting a proper currency
     let options = {
@@ -46,6 +41,7 @@ export default (basil) => {
       useGrouping: group
     }
 
+    if (display){ options.currencyDisplay = display }
     if (fraction) { options.maximumFractionDigits = Math.min(20, Math.max(fraction, 0)) }
     if (significant) { options.maximumSignificantDigits = Math.min(21, Math.max(significant, 1)) }
 
@@ -54,6 +50,5 @@ export default (basil) => {
     return ret
   }
 
-  basil.currency = currency
-  basil.Currencies = Currencies
+  scope.currency = currency
 }

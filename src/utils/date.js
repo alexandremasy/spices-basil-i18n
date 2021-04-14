@@ -1,8 +1,7 @@
-import DateComponents from '../vos/date-components'
-import DateFormats from '../vos/date-formats'
+import Formats from '../vos/formats'
 import DateStyles from '../vos/date-styles'
 
-export default (basil) => {
+export default (basil, scope) => {
 
   const date = ({ day, era, hour, locale = 'en', minute, month, second, style = DateStyles.DATE, timezone, value, weekday, year}) => {
     // Validate the value is a date
@@ -29,15 +28,15 @@ export default (basil) => {
     if (!basil.isNil(year)){ options.year = year }
     options.hourCycle = 'h24'
 
-    if (options.day == DateFormats.NONE){ delete options.day }
-    if (options.era == DateFormats.NONE){ delete options.era }
-    if (options.hour == DateFormats.NONE){ delete options.hour }
-    if (options.minute == DateFormats.NONE){ delete options.minute }
-    if (options.month == DateFormats.NONE){ delete options.month }
-    if (options.second == DateFormats.NONE){ delete options.second }
-    if (options.timezone == DateFormats.NONE){ delete options.timezone }
-    if (options.weekday == DateFormats.NONE){ delete options.weekday }
-    if (options.year == DateFormats.NONE){ delete options.year }
+    if (options.day == Formats.NONE){ delete options.day }
+    if (options.era == Formats.NONE){ delete options.era }
+    if (options.hour == Formats.NONE){ delete options.hour }
+    if (options.minute == Formats.NONE){ delete options.minute }
+    if (options.month == Formats.NONE){ delete options.month }
+    if (options.second == Formats.NONE){ delete options.second }
+    if (options.timezone == Formats.NONE){ delete options.timezone }
+    if (options.weekday == Formats.NONE){ delete options.weekday }
+    if (options.year == Formats.NONE){ delete options.year }
 
     let ret = new Intl.DateTimeFormat(locale, options).format(value)
     ret = ret.replace(',', '')
@@ -56,11 +55,7 @@ export default (basil) => {
     return date(options)
   }
 
-  basil.date = date
-  basil.datetime = datetime
-  basil.time = time
-
-  basil.DateComponents = DateComponents
-  basil.DateFormats = DateFormats
-  basil.DateStyles = DateStyles
+  scope.date = date
+  scope.datetime = datetime
+  scope.time = time
 }

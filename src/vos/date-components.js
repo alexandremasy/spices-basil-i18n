@@ -1,4 +1,4 @@
-import DateFormats from './date-formats'
+import Formats from './formats'
 
 class $DateComponents{
   constructor(formats){
@@ -9,15 +9,15 @@ class $DateComponents{
 
 const DateComponents = {}
 
-DateComponents.DAY = new $DateComponents([DateFormats.NONE, DateFormats.NUMERIC, DateFormats.DIGIT2])
-DateComponents.ERA = new $DateComponents([DateFormats.NONE, DateFormats.LONG, DateFormats.SHORT, DateFormats.NARROW])
-DateComponents.HOUR = new $DateComponents([DateFormats.NONE, DateFormats.NUMERIC, DateFormats.DIGIT2])
-DateComponents.MINUTE = new $DateComponents([DateFormats.NONE, DateFormats.NUMERIC, DateFormats.DIGIT2])
-DateComponents.MONTH = new $DateComponents([DateFormats.NONE, DateFormats.NUMERIC, DateFormats.DIGIT2, DateFormats.LONG, DateFormats.SHORT, DateFormats.NARROW])
-DateComponents.SECOND = new $DateComponents([DateFormats.NONE, DateFormats.NUMERIC, DateFormats.DIGIT2])
-DateComponents.TIMEZONE = new $DateComponents([DateFormats.NONE, DateFormats.LONG, DateFormats.SHORT])
-DateComponents.WEEKDAY = new $DateComponents([DateFormats.NONE, DateFormats.LONG, DateFormats.SHORT, DateFormats.NARROW])
-DateComponents.YEAR = new $DateComponents([DateFormats.NONE, DateFormats.NUMERIC, DateFormats.DIGIT2])
+DateComponents.DAY = new $DateComponents([Formats.NONE, Formats.NUMERIC, Formats.DIGIT2])
+DateComponents.ERA = new $DateComponents([Formats.NONE, Formats.LONG, Formats.SHORT, Formats.NARROW])
+DateComponents.HOUR = new $DateComponents([Formats.NONE, Formats.NUMERIC, Formats.DIGIT2])
+DateComponents.MINUTE = new $DateComponents([Formats.NONE, Formats.NUMERIC, Formats.DIGIT2])
+DateComponents.MONTH = new $DateComponents([Formats.NONE, Formats.NUMERIC, Formats.DIGIT2, Formats.LONG, Formats.SHORT, Formats.NARROW])
+DateComponents.SECOND = new $DateComponents([Formats.NONE, Formats.NUMERIC, Formats.DIGIT2])
+DateComponents.TIMEZONE = new $DateComponents([Formats.NONE, Formats.LONG, Formats.SHORT])
+DateComponents.WEEKDAY = new $DateComponents([Formats.NONE, Formats.LONG, Formats.SHORT, Formats.NARROW])
+DateComponents.YEAR = new $DateComponents([Formats.NONE, Formats.NUMERIC, Formats.DIGIT2])
 
 DateComponents.ALL = [
   DateComponents.WEEKDAY,
