@@ -17,13 +17,13 @@ export default (basil, scope) => {
    * @param {Number}  options.value - The value to format
    * @returns 
    */
-  const number = ({ compact = false, display = Formats.SHORT, fraction = 2, group = true, locale = 'en', sign = NumberSigns.AUTO, significant = 21, style = NumberStyles.DECIMAL, unit, value }) => {
+  const number = ({ compact = false, display = Formats.SHORT, fraction = 2, group = true, locale = 'en', sign = NumberSigns.AUTO, significant, style = NumberStyles.DECIMAL, unit, value }) => {
     let isStyleUnit = style === NumberStyles.UNIT
     let requestedUnit = unit
 
     // Validate the value is a number
     if (!basil.isNumber(value)){
-      return console.error(`@spices/basil: Invalid value for the number formatter: ${value}`)
+      return console.error(`@spices/basil: Invalid value for the number formatter: ${value} as ${typeof value}`)
     }
 
     // Sign validation

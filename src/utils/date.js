@@ -38,7 +38,7 @@ export default (basil, scope) => {
     if (options.weekday == Formats.NONE){ delete options.weekday }
     if (options.year == Formats.NONE){ delete options.year }
 
-    console.log(options)
+    // console.log(options)
     let ret = new Intl.DateTimeFormat(locale, options).format(value)
     ret = ret.replace(',', '')
     ret = ret.formatter ? ret.formatter(ret) : ret

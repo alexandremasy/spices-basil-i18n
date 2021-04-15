@@ -5,7 +5,7 @@ import NumberStyles from '../vos/number-styles'
 
 export default (basil, scope) => {
 
-  const currency = ({ compact = false, currency = Currencies.EURO, display = Formats.SYMBOL, fraction = 2, group = true, locale = 'en', significant = 21, sign = NumberSigns.AUTO, value }) => {
+  const currency = ({ compact = false, currency = Currencies.EURO, display = Formats.SYMBOL, fraction = 2, group = true, locale = 'en', significant, sign = NumberSigns.AUTO, value }) => {
     let requestedCurrency = currency
 
     // No value
@@ -51,6 +51,7 @@ export default (basil, scope) => {
     if (fraction) { options.maximumFractionDigits = Math.min(20, Math.max(fraction, 0)) }
     if (significant) { options.maximumSignificantDigits = Math.min(21, Math.max(significant, 1)) }
 
+    // console.log(locale, JSON.stringify(options));
     let ret = new Intl.NumberFormat(locale, options).format(value)
 
     // Custom currency
