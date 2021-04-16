@@ -5,7 +5,17 @@ import NumberStyles from '../vos/number-styles'
 
 export default (basil, scope) => {
 
-  const currency = ({ compact = false, currency = Currencies.EURO, display = Formats.SYMBOL, fraction = 2, group = true, locale = 'en', significant, sign = NumberSigns.AUTO, value }) => {
+  const currency = (value, options = {}) => {
+    let { 
+      compact = false, 
+      currency = Currencies.EURO, 
+      display = Formats.SYMBOL, 
+      fraction = 2, 
+      group = true, 
+      locale = 'en', 
+      significant, 
+      sign = NumberSigns.AUTO 
+    } = options
     let requestedCurrency = currency
 
     // No value
@@ -39,7 +49,7 @@ export default (basil, scope) => {
     }
 
     // Fomatting a proper currency
-    let options = {
+    let o = {
       currency: currency.alpha,
       notation: compact === true ? 'compact' : 'standard',
       signDisplay: sign,
@@ -47,12 +57,12 @@ export default (basil, scope) => {
       useGrouping: group
     }
 
-    if (display){ options.currencyDisplay = display }
-    if (fraction) { options.maximumFractionDigits = Math.min(20, Math.max(fraction, 0)) }
-    if (significant) { options.maximumSignificantDigits = Math.min(21, Math.max(significant, 1)) }
+    if (display){ o.currencyDisplay = display }
+    if (fraction) { o.maximumFractionDigits = Math.min(20, Math.max(fraction, 0)) }
+    if (significant) { o.maximumSignificantDigits = Math.min(21, Math.max(significant, 1)) }
 
-    // console.log(locale, JSON.stringify(options));
-    let ret = new Intl.NumberFormat(locale, options).format(value)
+    // console.log(locale, JSON.stringify(o));
+    let ret = new Intl.NumberFormat(locale, o).format(value)
 
     // Custom currency
     if (requestedCurrency != currency){

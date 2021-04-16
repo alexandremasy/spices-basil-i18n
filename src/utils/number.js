@@ -17,7 +17,18 @@ export default (basil, scope) => {
    * @param {Number}  options.value - The value to format
    * @returns 
    */
-  const number = ({ compact = false, display = Formats.SHORT, fraction = 2, group = true, locale = 'en', sign = NumberSigns.AUTO, significant, style = NumberStyles.DECIMAL, unit, value }) => {
+  const number = (value, options = {}) => {
+    let { 
+      compact = false, 
+      display = Formats.SHORT, 
+      fraction = 2, 
+      group = true, 
+      locale = 'en', 
+      sign = NumberSigns.AUTO, 
+      significant, 
+      style = NumberStyles.DECIMAL, 
+      unit 
+    } = options
     let isStyleUnit = style === NumberStyles.UNIT
     let requestedUnit = unit
 
@@ -51,20 +62,20 @@ export default (basil, scope) => {
       unit = NumberUnits.LITER
     }
 
-    let options = {
+    let o = {
       notation: compact === true ? 'compact' : 'standard',
       signDisplay: sign,
       style: style,
       useGrouping: group
     }
     
-    if (isStyleUnit){ options.unit = unit }
-    if (isStyleUnit && display){ options.unitDisplay = display }
-    if (fraction){ options.maximumFractionDigits = Math.min(20, Math.max(fraction, 0)) }
-    if (significant){ options.maximumSignificantDigits = Math.min(21, Math.max(significant, 1)) }
+    if (isStyleUnit){ o.unit = unit }
+    if (isStyleUnit && display){ o.unitDisplay = display }
+    if (fraction){ o.maximumFractionDigits = Math.min(20, Math.max(fraction, 0)) }
+    if (significant){ o.maximumSignificantDigits = Math.min(21, Math.max(significant, 1)) }
     
-    // console.log(options)
-    let ret = new Intl.NumberFormat(locale, options).format(value)
+    // console.log(o)
+    let ret = new Intl.NumberFormat(locale, o).format(value)
     
     // Unit validation
     // For a custom unit, set the unit to liter and replace the symbol by the custom one
@@ -75,14 +86,14 @@ export default (basil, scope) => {
     return ret
   }
 
-  const percent = (options) => {
+  const percent = (value, options) => {
     options.style = NumberStyles.PERCENT
-    return number(options)
+    return number(value, options)
   }
 
-  const unit = (options) => {
+  const unit = (value, options) => {
     options.style = NumberStyles.UNIT
-    return number(options)
+    return number(value, options)
   }
 
   scope.number = number

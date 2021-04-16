@@ -3,7 +3,21 @@ import DateStyles from '../vos/date-styles'
 
 export default (basil, scope) => {
 
-  const date = ({ day, era, hour, locale = 'en', minute, month, second, style = DateStyles.DATE, timezone, value, weekday, year}) => {
+  const date = (value, options = {}) => {
+    let { 
+      day, 
+      era, 
+      hour, 
+      locale = 'en', 
+      minute, 
+      month, 
+      second, 
+      style = DateStyles.DATE, 
+      timezone, 
+      weekday, 
+      year 
+    } = options
+
     // Validate the value is a date
     if (!basil.isDate(value)){
       console.error(`@spices/basil: Invalid value for the date formatter. Must be a date. ${value}`)
@@ -16,44 +30,44 @@ export default (basil, scope) => {
     }  
 
     // Allow the override of a defined style
-    let options = Object.assign({}, style)
-    if (!basil.isNil(day)){ options.day = day }
-    if (!basil.isNil(era)){ options.era = era }
-    if (!basil.isNil(hour)){ options.hour = hour }
-    if (!basil.isNil(minute)){ options.minute = minute }
-    if (!basil.isNil(month)){ options.month = month }
-    if (!basil.isNil(second)){ options.second = second }
-    if (!basil.isNil(timezone)){ options.timeZoneName = timezone }
-    if (!basil.isNil(weekday)){ options.weekday = weekday }
-    if (!basil.isNil(year)){ options.year = year }
-    options.hourCycle = 'h24'
+    let o = Object.assign({}, style)
+    if (!basil.isNil(day)){ o.day = day }
+    if (!basil.isNil(era)){ o.era = era }
+    if (!basil.isNil(hour)){ o.hour = hour }
+    if (!basil.isNil(minute)){ o.minute = minute }
+    if (!basil.isNil(month)){ o.month = month }
+    if (!basil.isNil(second)){ o.second = second }
+    if (!basil.isNil(timezone)){ o.timeZoneName = timezone }
+    if (!basil.isNil(weekday)){ o.weekday = weekday }
+    if (!basil.isNil(year)){ o.year = year }
+    o.hourCycle = 'h24'
 
-    if (options.day == Formats.NONE){ delete options.day }
-    if (options.era == Formats.NONE){ delete options.era }
-    if (options.hour == Formats.NONE){ delete options.hour }
-    if (options.minute == Formats.NONE){ delete options.minute }
-    if (options.month == Formats.NONE){ delete options.month }
-    if (options.second == Formats.NONE){ delete options.second }
-    if (options.timeZoneName == Formats.NONE){ delete options.timeZoneName }
-    if (options.weekday == Formats.NONE){ delete options.weekday }
-    if (options.year == Formats.NONE){ delete options.year }
+    if (o.day == Formats.NONE){ delete o.day }
+    if (o.era == Formats.NONE){ delete o.era }
+    if (o.hour == Formats.NONE){ delete o.hour }
+    if (o.minute == Formats.NONE){ delete o.minute }
+    if (o.month == Formats.NONE){ delete o.month }
+    if (o.second == Formats.NONE){ delete o.second }
+    if (o.timeZoneName == Formats.NONE){ delete o.timeZoneName }
+    if (o.weekday == Formats.NONE){ delete o.weekday }
+    if (o.year == Formats.NONE){ delete o.year }
 
-    // console.log(options)
-    let ret = new Intl.DateTimeFormat(locale, options).format(value)
+    // console.log(o)
+    let ret = new Intl.DateTimeFormat(locale, o).format(value)
     ret = ret.replace(',', '')
     ret = ret.formatter ? ret.formatter(ret) : ret
     
     return ret
   }
 
-  const datetime = (options) => {
+  const datetime = (value, options) => {
     options.style = DateStyles.DATETIME
-    return date(options)
+    return date(value, options)
   }
 
-  const time = (options) => {
+  const time = (value, options) => {
     options.style = DateStyles.TIME
-    return date(options)
+    return date(value, options)
   }
 
   scope.date = date
