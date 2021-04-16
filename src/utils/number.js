@@ -86,12 +86,12 @@ export default (basil, scope) => {
     return ret
   }
 
-  const percent = (value, options) => {
+  const percent = (value, options = {}) => {
     options.style = NumberStyles.PERCENT
     return number(value, options)
   }
 
-  const unit = (value, options) => {
+  const unit = (value, options = {}) => {
     options.style = NumberStyles.UNIT
     return number(value, options)
   }

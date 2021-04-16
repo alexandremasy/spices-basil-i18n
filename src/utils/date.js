@@ -60,12 +60,12 @@ export default (basil, scope) => {
     return ret
   }
 
-  const datetime = (value, options) => {
+  const datetime = (value, options = {}) => {
     options.style = DateStyles.DATETIME
     return date(value, options)
   }
 
-  const time = (value, options) => {
+  const time = (value, options = {}) => {
     options.style = DateStyles.TIME
     return date(value, options)
   }
