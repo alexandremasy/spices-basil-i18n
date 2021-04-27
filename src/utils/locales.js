@@ -21,8 +21,7 @@ export default (basil, scope, options) => {
     }
 
     // must be array of locale
-    let el = value.some(l => !l instanceof scope.Locale)
-    if (el){
+    if (value.some(l => !(l instanceof scope.Locale))){
       ret += INVALID_ITEMS
     }
 
@@ -34,6 +33,7 @@ export default (basil, scope, options) => {
   // 1. The options value
   // 2. Fallback to the navigator.language
   let _locales = options.locales || [new scope.Locale(navigator.language)]
+  console.log('i18n.locales', _locales)
   Object.defineProperty(scope, 'locales', {
     enumerable: true,
     get: () => _locales,
@@ -43,13 +43,13 @@ export default (basil, scope, options) => {
       // must be defined
       // must be an array
       if (validity & INVALID_LIST){
-        console.warn(`Warn ${scope}.locales: Must be a valid list of ${scope}.Locale`)
+        console.warn(`Warn basil.i18n.locales: Must be a valid list of Locale`)
         return
       }
       
       // must be array of locale
       if (validity & INVALID_ITEMS){
-        console.warn(`Warn ${scope}.locales: Must be a list of ${scope}.Locale`)
+        console.warn(`Warn basil.i18n.locales: Must be a list of Locale`)
         return
       }
       

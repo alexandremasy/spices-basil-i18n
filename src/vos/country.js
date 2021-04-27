@@ -10,7 +10,7 @@ export default class Country {
    * @param {String} value 
    */
   constructor(value) {
-    this._value = value.trim()
+    this._value = value ? value.trim() : null
   }
 
   /**
