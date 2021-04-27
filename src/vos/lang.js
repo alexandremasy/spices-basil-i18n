@@ -3,13 +3,14 @@
  * 
  * @class
  */
-export default class BasilLang {
+export default class Lang {
+  
   /**
    * @constructor
    * @param {String} value The language code
    */
   constructor(value) {
-    this._value = value;
+    this._value = value.trim()
   }
 
   /**
@@ -19,7 +20,15 @@ export default class BasilLang {
    * @readonly
    */
   get alpha2() {
-    return this._value || null;
+    return this._value || null
+  }
+
+  /**
+   * @property {Boolean}
+   * @readonly
+   */
+  get valid() {
+    return this._value && this._value.length > 0
   }
 
   /**
@@ -29,6 +38,6 @@ export default class BasilLang {
    * @readonly
    */
   toString() {
-    return this.alpha2;
+    return this.alpha2
   }
 }

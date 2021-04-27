@@ -3,14 +3,14 @@
  * 
  * @class
  */
-export default class BasilCountry {
+export default class Country {
 
   /**
    * @constructor 
    * @param {String} value 
    */
   constructor(value) {
-    this._value = value;
+    this._value = value.trim()
   }
 
   /**
@@ -20,7 +20,15 @@ export default class BasilCountry {
    * @readonly
    */
   get alpha2() {
-    return this._value || null;
+    return this._value || null
+  }
+
+  /**
+   * @property {Boolean}
+   * @readonly
+   */
+  get valid() {
+    return this._value != null && this._value.length > 0
   }
 
   /**
@@ -30,6 +38,6 @@ export default class BasilCountry {
    * @readonly
    */
   toString() {
-    return this.alpha2;
+    return this.alpha2
   }
 }

@@ -50,18 +50,18 @@ function config(opts){
     },
     plugins: [
       cjs(),
-      terser({
-        output: {
-          comments: opts.env === 'development' ? 'all' : function (node, comment) {
-            var text = comment.value;
-            var type = comment.type;
-            if (type == "comment2") {
-              // multiline comment
-              return /@preserve|@license|@cc_on/i.test(text);
-            }
-          },
-        },
-      })
+      // terser({
+      //   output: {
+      //     comments: opts.env === 'development' ? 'all' : function (node, comment) {
+      //       var text = comment.value;
+      //       var type = comment.type;
+      //       if (type == "comment2") {
+      //         // multiline comment
+      //         return /@preserve|@license|@cc_on/i.test(text);
+      //       }
+      //     },
+      //   },
+      // })
     ]
   }
 

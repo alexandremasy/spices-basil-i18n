@@ -23,7 +23,7 @@
 ## currency
 
 ```js
-basil.i18n.currency({
+basil.i18n.currency(value, options:Object{
   [compact:Boolean = false],
   [currency:String = basil.i18n.Currencies.EURO],
   [display:String = basil.i18n.Formats.SYMBOL],
@@ -32,7 +32,6 @@ basil.i18n.currency({
   [locale:String = 'en'],
   [significant:Integer = 21],
   [sign:NumberSigns = basil.i18n.NumberSigns.AUTO],
-  value:Number
 })
 ```
 
@@ -43,26 +42,33 @@ Format the given number into a human currency representation.
 ```js
 let value = 12345.6789
 
-basil.i18n.currency({ value }) // "€12,345.6789"
-basil.i18n.currency({ value, locale: 'fr' }) // "12 345,6789 €"
-basil.i18n.currency({ value, currency: basil.i18n.Currencies.US_DOLLAR }) // "$12,345.6789"
+basil.i18n.currency(value) // "€12,345.6789"
+basil.i18n.currency(value, { locale: 'fr' }) // "12 345,6789 €"
+basil.i18n.currency(value, { currency: basil.i18n.Currencies.US_DOLLAR }) // "$12,345.6789"
 ```
 
 ### Arguments
 
-`compact`  
+
+`value` **Required**
+
+The value to convert. Must be a valid Number.
+
+
+
+`options.compact`  
 
 Whether or not use a compact form of output. Useful for legend and such narrow places. Possible values are true and false; the default is false.
 
 
 
-`currency`
+`options.currency`
 
 The currency to use in currency formatting. Possible values are the ISO 4217 currency codes. The allowed values are modeled and available with the `basil.i18n.Currencies` collection.
 
 
 
-`display`
+`options.display`
 
 How to display the currency in currency formatting. Possible values are:
 
@@ -73,31 +79,31 @@ How to display the currency in currency formatting. Possible values are:
 
  
 
-`fraction` 
+`options.fraction` 
 
 The number of fraction digits to use. Possible values are from 0 to 20. The default value is 2.
 
 
 
-`group` 
+`options.group` 
 
 Whether to use grouping separators, such as thousands separators or thousand/lakh/crore separators. Possible values are true and false; the default is true.
 
 
 
-`locale` 
+`options.locale` 
 
 A string with a BCP 47 language tag, or an array of such strings.
 
 
 
-`significant` 
+`options.significant` 
 
 The number of significant digits to use. Possible values are from 1 to 21. The default is 21.
 
 
 
-`sign`
+`options.sign`
 
 When to display the sign for the number; defaults to `basil.NumberSigns.AUTO`
 
@@ -105,12 +111,6 @@ When to display the sign for the number; defaults to `basil.NumberSigns.AUTO`
 - `basil.i18n.NumberSigns.NEVER` Never display sign
 - `basil.i18n.NumberSigns.ALWAYS` Always display sign
 - `basil.i18n.NumberSigns.EXCEPTZERO` Sign display for positive and negative numbers, but not zero
-
-
-
-`value` **Required**
-
-The value to convert. Must be a valid Number.
 
 
 
@@ -124,8 +124,8 @@ The formatted value as a String.
 
 ## date
 
-```
-basil.i18n.date({
+```js
+basil.i18n.date(value, options:Object{
   [day],
   [era],
   [hour],
@@ -156,17 +156,21 @@ For convenience, multiple aliases exist. All the version shares the same API, ju
 ```js
 let value = new Date()
 
-basil.date({ value }) // "04/14/2021"
-basil.datetime({ value }) // "04/14/2021 10:23"
-basil.time({ value }) // "10:23"
-basil.date({ value, weekday: basil.DateFormats.LONG }) // "Wednesday 04/14/2021"
+basil.date(value) // "04/14/2021"
+basil.datetime(value) // "04/14/2021 10:23"
+basil.time(value) // "10:23"
+basil.date(value, { weekday: basil.DateFormats.LONG }) // "Wednesday 04/14/2021"
 ```
 
 
 
 ### **Arguments**
 
-`day`
+`value` **Required**
+
+The value to convert. Must be a valid date.
+
+`options.day`
 
 The representation of the day. Possible values are:
 
@@ -175,7 +179,7 @@ The representation of the day. Possible values are:
 
 
 
-`era`
+`options.era`
 
 The representation of the era. Possible values are:
 
@@ -185,27 +189,27 @@ The representation of the era. Possible values are:
 
 
 
-`hour`
+`options.hour`
 
 The representation of the hour. 
 Possible values are `basil.i18n.Formats.NUMERIC`, `basil.i18n.Formats.DIGIT2`.
 
 
 
-`locale` 
+`options.locale` 
 
 A string with a BCP 47 language tag, or an array of such strings.
 
 
 
-`minute`
+`options.minute`
 
 The representation of the minute. 
 Possible values are `basil.i18n.Formats.NUMERIC`, `basil.i18n.Formats.DIGIT2`
 
 
 
-month
+`options.month`
 
 The representation of the month. Possible values are:
 
@@ -217,14 +221,14 @@ The representation of the month. Possible values are:
 
 
 
-`second`
+`options.second`
 
 The representation of the second. 
 Possible values are `basil.i18n.Formats.NUMERIC`, `basil.i18n.Formats.DIGIT2`.
 
 
 
-`style`
+`options.style`
 
 The style of output. Possible values are:
 
@@ -236,7 +240,7 @@ The style of output. Possible values are:
 
 
 
-`timezone`
+`options.timezone`
 
 The representation of the time zone name. Possible values are:
 
@@ -244,14 +248,7 @@ The representation of the time zone name. Possible values are:
 - `basil.i18n.Formats.SHORT` (e.g., `GMT+1`)
 
 
-
-`value` **Required**
-
-The value to convert. Must be a valid date.
-
-
-
-`weekday`
+`options.weekday`
 
 The representation of the weekday. Possible values are:
 
@@ -261,12 +258,15 @@ The representation of the weekday. Possible values are:
 
 
 
-`year`
+`options.year`
 
 The representation of the year. Possible values are:
 
 - `basil.i18n.Formats.NUMERIC` (e.g., `2012`)
 - `basil.i18n.Formats.DIGIT2` (e.g., `12`)
+
+
+
 
 
 
@@ -281,7 +281,7 @@ The formatted date as a String
 ## number
 
 ```javascript
-basil.i18n.number({ 
+basil.i18n.number(value:Number, options:Object{ 
   [compact:Boolean = false],
   [display:String = basil.i18n.Formats.SHORT]
   [fraction:Integer = 2],
@@ -291,7 +291,6 @@ basil.i18n.number({
   [significant:Integer = 21],
   [style:NumberStyles = basil.i18n.NumberStyles.DECIMAL],
   [unit:NumberUnits],
-  value:Number
 }):String
 ```
 
@@ -310,24 +309,28 @@ For convenience, multiple aliases exist. All the version shares the same API, ju
 ```javascript
 let value = 12345.67890
 
-basil.number({value}) // "12,345.6789"
-basil.number({ value, style: basil.i18n.NumberStyles.PERCENT }) // "1,234,568%"
-basil.number({ value, style: basil.i18n.NumberStyles.UNIT, unit: basil.i18n.NumberUnits.LITER }) // "12,345.6789 L"
-basil.number({ value, style: basil.i18n.NumberStyles.UNIT, unit: "Bonbons" }) // "12,345.6789 Bonbons"
-basil.number({ value, compact: true }) // "12.3456789K"
+basil.number( value ) // "12,345.6789"
+basil.number( value, { style: basil.i18n.NumberStyles.PERCENT }) // "1,234,568%"
+basil.number( value, { style: basil.i18n.NumberStyles.UNIT, unit: basil.i18n.NumberUnits.LITER }) // "12,345.6789 L"
+basil.number( value, { style: basil.i18n.NumberStyles.UNIT, unit: "Bonbons" }) // "12,345.6789 Bonbons"
+basil.number( value, { compact: true }) // "12.3456789K"
 ```
 
 
 
 ### **Arguments**
 
-`compact`  
+`value` **Required**
+
+The value to convert. Must be a valid Number.
+
+`options.compact`  
 
 Whether or not use a compact form of output. Useful for legend and such narrow places. Possible values are true and false; the default is false.
 
 
 
-`display`
+`options.display`
 
 The unit formatting style to use in unit formatting, the defaults is `basil.i18n.Formats.SHORT`.
 
@@ -337,25 +340,25 @@ The unit formatting style to use in unit formatting, the defaults is `basil.i18n
 
 
 
-`fraction` 
+`options.fraction` 
 
 The number of fraction digits to use. Possible values are from 0 to 20. The default value is 2.
 
 
 
-`group` 
+`options.group` 
 
 Whether to use grouping separators, such as thousands separators or thousand/lakh/crore separators. Possible values are true and false; the default is true.
 
 
 
-`locale` 
+`options.locale` 
 
 A string with a BCP 47 language tag, or an array of such strings.
 
 
 
-sign
+`options.sign`
 
 When to display the sign for the number; defaults to basil.i18n.NumberSigns.AUTO
 
@@ -366,13 +369,13 @@ When to display the sign for the number; defaults to basil.i18n.NumberSigns.AUTO
 
 
 
-`significant` 
+`options.significant` 
 
 The number of significant digits to use. Possible values are from 1 to 21. The default is 21.
 
 
 
-`style`
+`options.style`
 
 The formatting style to use, the default is `basil.i18n.NumberStyles.DECIMAL`.
 
@@ -382,7 +385,7 @@ The formatting style to use, the default is `basil.i18n.NumberStyles.DECIMAL`.
 
 
 
-`unit`
+`options.unit`
 
 The unit to use in `basil.i18n.NumberStyle.UNIT` formatting. Possible values are core unit identifiers, defined in the subset selected for use in ECMAScript. It is also possible to set a custom unit by just providing a String value instead of a defined NumberUnits. 
 
@@ -429,14 +432,6 @@ The unit to use in `basil.i18n.NumberStyle.UNIT` formatting. Possible values are
 - `basil.i18n.NumberUnits.WEEK`
 - `basil.i18n.NumberUnits.YARD`
 - `basil.i18n.NumberUnits.YEAR`
-
-
-
-`value` **Required**
-
-The value to convert. Must be a valid Number.
-
-
 
 ### Returns
 
