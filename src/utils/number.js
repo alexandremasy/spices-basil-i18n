@@ -23,7 +23,7 @@ export default (basil, scope) => {
       display = Formats.SHORT, 
       fraction = 2, 
       group = true, 
-      locale = 'en', 
+      locale, 
       sign = NumberSigns.AUTO, 
       significant, 
       style = NumberStyles.DECIMAL, 
@@ -32,27 +32,28 @@ export default (basil, scope) => {
     let isStyleUnit = style === NumberStyles.UNIT
     let requestedUnit = unit
 
+    
     // Validate the value is a number
     if (!basil.isNumber(value)){
-      return console.error(`@spices/basil: Invalid value for the number formatter: ${value} as ${typeof value}`)
+      return console.error(`[@spices/basil.i18n.number] Invalid value for the number formatter: ${value} as ${typeof value}`)
     }
 
     // Sign validation
     if (!NumberSigns.isValid(sign)){
-      console.warn(`@spices/basil: Invalid sign: ${sign}. Fallback to default value`)
+      console.warn(`[@spices/basil.i18n.number] Invalid sign: ${sign}. Fallback to default value`)
       sign = NumberSigns.AUTO
     }
     
     // Style validation
     if (!NumberStyles.isValid(style) || style === NumberStyles.CURRENCY){
-      console.warn(`@spices/basil: Invalid style: ${style} for the number formatter. Fallback to default value`)
+      console.warn(`[@spices/basil.i18n.number] Invalid style: ${style} for the number formatter. Fallback to default value`)
       style = NumberStyles.DECIMAL
     }
     
     // Display validation
     display = basil.isNil(display) ? Formats.SHORT : display
     if (![Formats.LONG, Formats.SHORT, Formats.NARROW].includes(display)){
-      console.warn(`@spices/basil: Invalid display: ${display} for the number formatter. Fallback to default value`)
+      console.warn(`[@spices/basil.i18n.number] Invalid display: ${display} for the number formatter. Fallback to default value`)
       display = Formats.SHORT
     }
 
@@ -60,6 +61,11 @@ export default (basil, scope) => {
     // For a custom unit, set the unit to liter and replace the symbol by the custom one
     if (!NumberUnits.isValid(unit) && isStyleUnit){
       unit = NumberUnits.LITER
+    }
+
+    // Validate the locale. If unvalid, fallback to the basil.i18n.locale value
+    if (!locale || basil.isNil(locale)) {
+      locale = scope.locale
     }
 
     let o = {
@@ -74,7 +80,11 @@ export default (basil, scope) => {
     if (fraction){ o.maximumFractionDigits = Math.min(20, Math.max(fraction, 0)) }
     if (significant){ o.maximumSignificantDigits = Math.min(21, Math.max(significant, 1)) }
     
-    // console.log(o)
+    // console.group('number');
+    // console.log(`locale: ${locale}`)
+    // console.log(`o: ${JSON.stringify(o)}`);
+    // console.log(`value: ${value}`);
+    // console.groupEnd('number');
     let ret = new Intl.NumberFormat(locale, o).format(value)
     
     // Unit validation

@@ -3,6 +3,7 @@ import date from './utils/date'
 import locale from './utils/locale'
 import locales from './utils/locales'
 import number from './utils/number'
+import i18nLocaleController from './core/locale'
 
 import * as vos from './vos'
 
@@ -34,11 +35,14 @@ export default {
     // Utils
     currency(basil, scope, scope.options)
     date(basil, scope, scope.options)
-    locales(basil, scope, scope.options)
-    locale(basil, scope, scope.options)
     number(basil, scope, scope.options)
 
-    // Mixins
+    // Locales
+    const ctrl = new i18nLocaleController(basil, scope, scope.options)
+    scope.ctrl = ctrl
+
+    locales(basil, scope, scope.options, ctrl)
+    locale(basil, scope, scope.options, ctrl)
 
   }
 }

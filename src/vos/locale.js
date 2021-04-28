@@ -67,7 +67,7 @@ export default class Locale {
    * @property {String}
    */
   get lang() {
-    return this.lang ? this._lang.alpha2 : null
+    return this._lang ? this._lang.alpha2 : null
   }
 
   /**

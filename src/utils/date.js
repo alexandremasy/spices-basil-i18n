@@ -8,7 +8,7 @@ export default (basil, scope) => {
       day, 
       era, 
       hour, 
-      locale = 'en', 
+      locale = scope.locale || 'en', 
       minute, 
       month, 
       second, 
@@ -20,14 +20,19 @@ export default (basil, scope) => {
 
     // Validate the value is a date
     if (!basil.isDate(value)){
-      console.error(`@spices/basil: Invalid value for the date formatter. Must be a date. ${value}`)
+      console.error(`[@spices/basil.i18n.date] Invalid value for the date formatter. Must be a date. ${value}`)
       return
     }
 
     let isValid = DateStyles.isValid(style)
     if (!basil.isNil(style) && !isValid){
-      console.warn(`@spices/basil: Invalid style for the date formatter. Fallback to a default value. ${style}`)
-    }  
+      console.warn(`[@spices/basil.i18n.date] Invalid style for the date formatter. Fallback to a default value. ${style}`)
+    }
+    
+    // Validate the locale. If unvalid, fallback to the basil.i18n.locale value
+    if (!locale || basil.isNil(locale)) {
+      locale = scope.locale
+    }
 
     // Allow the override of a defined style
     let o = Object.assign({}, style)
@@ -52,7 +57,11 @@ export default (basil, scope) => {
     if (o.weekday == Formats.NONE){ delete o.weekday }
     if (o.year == Formats.NONE){ delete o.year }
 
-    // console.log(o)
+    // console.group('date');
+    // console.log(`locale: ${locale}`)
+    // console.log(`o: ${JSON.stringify(o)}`);
+    // console.log(`value: ${value}`);
+    // console.groupEnd('number');
     let ret = new Intl.DateTimeFormat(locale, o).format(value)
     ret = ret.replace(',', '')
     ret = ret.formatter ? ret.formatter(ret) : ret

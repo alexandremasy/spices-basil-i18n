@@ -20,19 +20,19 @@ export default (basil, scope) => {
 
     // No value
     if (basil.isNil(value)){
-      console.error(`@spices/basil: A value must be provided for the currency formatter: ${value}`)
+      console.error(`[@spices/basil.18n.currency] A value must be provided for the currency formatter: ${value}`)
       return
     }
     
     // Value not a number
     if (!basil.isNumber(value)){
-      console.error(`@spices/basil: A value of type number must be provided for the currency formatter: ${value}`)
+      console.error(`[@spices/basil.i18n.currency] A value of type number must be provided for the currency formatter: ${value}`)
       return
     }
     
     // No currency
     if (basil.isNil(currency)){
-      console.error(`@spices/basil: A currency must be provided for the currency formatter: ${currency}`)
+      console.error(`[@spices/basil.i18n.currency] A currency must be provided for the currency formatter: ${currency}`)
       return
     }
 
@@ -48,6 +48,11 @@ export default (basil, scope) => {
       display = Formats.SYMBOL
     }
 
+    // Validate the locale. If unvalid, fallback to the basil.i18n.locale value
+    if (!locale || basil.isNil(locale)) {
+      locale = scope.locale
+    }
+
     // Fomatting a proper currency
     let o = {
       currency: currency.alpha,
@@ -61,7 +66,11 @@ export default (basil, scope) => {
     if (fraction) { o.maximumFractionDigits = Math.min(20, Math.max(fraction, 0)) }
     if (significant) { o.maximumSignificantDigits = Math.min(21, Math.max(significant, 1)) }
 
-    // console.log(locale, JSON.stringify(o));
+    // console.group('currency');
+    // console.log(`locale: ${locale}`)
+    // console.log(`o: ${JSON.stringify(o)}`);
+    // console.log(`value: ${value}`);
+    // console.groupEnd('number');
     let ret = new Intl.NumberFormat(locale, o).format(value)
 
     // Custom currency
