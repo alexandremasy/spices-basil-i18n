@@ -17,15 +17,16 @@ export default {
     Object.keys(vos).forEach(k => scope[k] = vos[k])
 
     // Options
+    let fallback = 'en-GB'
     Object.defineProperty(scope, 'options', {
       value: {
         locale: {
-          fallback: new scope.Locale(basil.get(options, 'locale.fallback', 'en-GB')),
+          fallback: new scope.Locale(basil.get(options, 'locale.fallback', fallback)),
           key: basil.get(options, 'locale.key', 'basil.i18n.locale'),
           persistent: basil.get(options, 'locale.persistent', true) === true,
-          value: new scope.Locale(basil.get(options, 'locale.value', navigator.language))
+          value: new scope.Locale(basil.get(options, 'locale.value', basil.get(global, 'window.navigator.language', fallback)))
         },
-        locales: basil.get(options, 'locales', [new scope.Locale(navigator.language)] )
+        locales: basil.get(options, 'locales', [] )
       }
     })
     Object.freeze(scope.options)

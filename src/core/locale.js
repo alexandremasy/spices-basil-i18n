@@ -31,6 +31,33 @@ export default class i18nLocaleController {
     return this._locales && this._locales.length > 0
   }
 
+  /**
+   * @property {Boolean} hasLocalStorage
+   *  Whether the localStorage feature is there and available or not
+   */
+  get hasLocalStorage(){
+    let ret = true
+    if (typeof localStorage !== 'undefined') {
+      try {
+        localStorage.setItem('feature_test', 'yes');
+        if (localStorage.getItem('feature_test') === 'yes') {
+          localStorage.removeItem('feature_test');
+          // localStorage is enabled
+        } else {
+          // localStorage is disabled
+          ret = false
+        }
+      } catch (e) {
+        // localStorage is disabled
+        ret = false
+      }
+    } else {
+      // localStorage is not available
+      ret = false
+    }
+
+    return ret
+  }
 
   /**
    * @property {Locale|String} locale
@@ -109,7 +136,7 @@ export default class i18nLocaleController {
    *  The stored locale
    */
   get stored(){
-    return this.persistent ? localStorage.getItem(this._options.locale.key) : null
+    return this.persistent && this.hasLocalStorage ? localStorage.getItem(this._options.locale.key) : null
   }
 
   //////////////////////////////////////////////////////

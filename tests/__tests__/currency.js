@@ -1,10 +1,3 @@
-const { basil } = require('@spices/basil')
-const { install } = require('../dist/spices-basil-i18n')
-
-beforeAll(() => {
-  basil.use(install)
-})
-
 let tests = [
   { in: 1,                   out: '€1.00', options: {}},
   { in: 123456789.123456789, out: '€123,456,789.12', options: {}},
