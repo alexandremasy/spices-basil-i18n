@@ -15,10 +15,9 @@ export default class i18nLocaleController {
     this._options = options
     this._parent = basil
     this._scope = scope
-
     this._fallback = options.locale.fallback
-    this._locale = this._getDefaultLocale()
-    this._locales = null
+
+    this.reset()
   }
 
   //////////////////////////////////////////////////////
@@ -75,14 +74,12 @@ export default class i18nLocaleController {
 
     // Validate the type
     if (!(value instanceof this._scope.Locale)){
-      console.warn('[basil.i18n.locale] locale must be an instance of basil.i18n.Locale', value);
-      return
+      throw `[basil.i18n.locale] locale must be an instance of basil.i18n.Locale ${value}`
     }
     
     // Confirm validity
     if (!this._isLocaleValid(value)){
-      console.warn('[basil.i18n.locale] locale must be a valid basil.i18n.Locale', value.toString());
-      return
+      throw `[basil.i18n.locale] locale must be a valid basil.i18n.Locale ${value.toString()})`
     }
 
     this._locale = value
@@ -107,14 +104,12 @@ export default class i18nLocaleController {
     // must be defined
     // must be an array
     if (validity & INVALID_LIST) {
-      console.warn(`[basil.i18n.locales] Must be a valid list of Locale`)
-      return
+      throw `[basil.i18n.locales] Must be a valid list of Locale`
     }
 
     // must be array of locale
     if (validity & INVALID_ITEMS) {
-      console.warn(`[basil.i18n.locales] Must be a list of Locale`)
-      return
+      throw `[basil.i18n.locales] Must be a list of Locale`
     }
 
     this._locales = value
@@ -214,6 +209,16 @@ export default class i18nLocaleController {
            value instanceof this._scope.Locale && // Must be a locale
            value.valid && // Must be a valid locale
            (!this.hasLocales || (this.hasLocales && this._locales.some(l => l.langtag === value.langtag))) // Must be part of the list of locales
+  }
+
+  /**
+   * Reset the to the initial state
+   * - Utils for the unit tests
+   */
+  reset(){
+    this._locale = this._getDefaultLocale()
+    this._locales = null
+    // console.info('i18n.reset > ', this._locale.toString())
   }
 
   /**

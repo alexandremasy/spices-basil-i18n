@@ -23,7 +23,7 @@ export default {
         locale: {
           fallback: new scope.Locale(basil.get(options, 'locale.fallback', fallback)),
           key: basil.get(options, 'locale.key', 'basil.i18n.locale'),
-          persistent: basil.get(options, 'locale.persistent', true) === true,
+          persistent: basil.get(options, 'locale.persistent', false) === true,
           value: new scope.Locale(basil.get(options, 'locale.value', basil.get(global, 'window.navigator.language', fallback)))
         },
         locales: basil.get(options, 'locales', [] )
