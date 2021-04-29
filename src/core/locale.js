@@ -16,6 +16,7 @@ export default class i18nLocaleController {
     this._parent = basil
     this._scope = scope
 
+    this._fallback = options.locale.fallback
     this._locale = this._getDefaultLocale()
     this._locales = null
   }
@@ -40,19 +41,27 @@ export default class i18nLocaleController {
     return this._locale
   }
   set locale(value){
+    // Auto convert string to Locale
     if (this._parent.isString(value)){
       value = new this._scope.Locale(value)
     }
 
+    // Validate the type
     if (!(value instanceof this._scope.Locale)){
       console.warn('[basil.i18n.locale] locale must be an instance of basil.i18n.Locale', value);
-      return;
+      return
+    }
+    
+    // Confirm validity
+    if (!this._isLocaleValid(value)){
+      console.warn('[basil.i18n.locale] locale must be a valid basil.i18n.Locale', value.toString());
+      return
     }
 
     this._locale = value
 
     if (this.persistent === true){
-      this.save()
+      this._save()
     }
   }
 
@@ -82,6 +91,9 @@ export default class i18nLocaleController {
     }
 
     this._locales = value
+
+    // Reset the locale to confirm the validity 
+    this.locale = this._getDefaultLocale(this._locale)
   }
   
   /**
@@ -105,21 +117,35 @@ export default class i18nLocaleController {
   /**
    * Find out the proper default locale
    * 1. Check if the value is persisted and is valid
-   * 2. Check if the requested locale is valid
+   * 2. Check if the requested locale is valid (either the given value or the options defined one)
    * 3. Or use the fallback
+   * 4. Or use the first available value in locales
    * 
    * @private
    * @returns {Locale}
    */
-  _getDefaultLocale() {
-    return [
+  _getDefaultLocale(value) {
+    // console.group('getDefaultLocale');
+    // console.table([
+    //   this.stored,
+    //   value ? value : this._options.locale.value,
+    //   this._options.locale.fallback,
+    //   this.hasLocales ? this.locales[0] : null
+    // ].map(e => this._parent.isString(e) ? new this._scope.Locale(e).toString() : e))
+    
+    let ret = [
       this.stored,
-      this._options.locale.value,
-      this._options.locale.fallback
+      value ? value : this._options.locale.value,
+      this._options.locale.fallback,
+      this.hasLocales ? this.locales[0] : null
     ]
     .map(e => this._parent.isString(e) ? new this._scope.Locale(e) : e)
     .filter(e => !this._parent.isNil(e) && !this._parent.isNil(e.langtag))
     .find(l => this._isLocaleValid(l))
+    
+    // console.log(ret)
+    // console.groupEnd('getDefaultLocale');
+    return ret
   }
 
   /**
@@ -155,17 +181,20 @@ export default class i18nLocaleController {
    * @returns {Boolean}
    */
   _isLocaleValid(value){
-    return !this._parent.isNil(value) && // Must be set
-      value instanceof this._scope.Locale && // Must be a locale
-      value.valid && // Must be a valid locale
-      (!this.hasLocales || (this.hasLocales && this._locales.some(l => l.langtag === value.langtag))) // Must be part of the list of locales
+    let isset = !this._parent.isNil(value)
+
+    return isset && // Must be set
+           value instanceof this._scope.Locale && // Must be a locale
+           value.valid && // Must be a valid locale
+           (!this.hasLocales || (this.hasLocales && this._locales.some(l => l.langtag === value.langtag))) // Must be part of the list of locales
   }
 
-  reset(){
-    localStorage.removeItem(this._options.locale.key)
-  }
-
-  save(){
+  /**
+   * Save the current locale in the locale storage
+   * 
+   * @private
+   */
+  _save(){
     localStorage.setItem(this._options.locale.key, this._locale)
   }
 }

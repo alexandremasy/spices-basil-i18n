@@ -2,7 +2,11 @@
   "author": "Alexandre <hello@alexandremasy.com>",
   "description": "@spices/basil plugin to ease the i18n process",
   "devDependencies": {
+    "@babel/core": "^7.13.16",
+    "@babel/preset-env": "^7.13.15",
     "@rollup/plugin-commonjs": "^14.0.0",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3",
     "ora": "^5.0.0",
     "rollup": "^2.21.0",
     "rollup-plugin-terser": "^7.0.0",
@@ -19,6 +23,9 @@
     "exec": "yarn bundle",
     "watch": "src"
   },
+  "peerDependencies": {
+    "@spices/basil": "^1.7.0"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -31,6 +38,7 @@
     "bundle": "rollup -c",
     "ci": "node ./scripts/ci.js",
     "start": "nodemon",
+    "test": "jest",
     "prepublish": "yarn bundle"
   },
   "version": "1.2.2"

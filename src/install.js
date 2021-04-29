@@ -20,10 +20,10 @@ export default {
     Object.defineProperty(scope, 'options', {
       value: {
         locale: {
-          fallback: basil.get(options, 'locale.fallback', 'en-GB'),
+          fallback: new scope.Locale(basil.get(options, 'locale.fallback', 'en-GB')),
           key: basil.get(options, 'locale.key', 'basil.i18n.locale'),
           persistent: basil.get(options, 'locale.persistent', true) === true,
-          value: basil.get(options, 'locale.value', navigator.language)
+          value: new scope.Locale(basil.get(options, 'locale.value', navigator.language))
         },
         locales: basil.get(options, 'locales', [new scope.Locale(navigator.language)] )
       }
