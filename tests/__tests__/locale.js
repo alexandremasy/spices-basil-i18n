@@ -1,4 +1,4 @@
-describe.skip('locale', () => {
+describe('locale', () => {
   let fr = new basil.i18n.Locale('fr')
   let frBE = new basil.i18n.Locale('fr_BE')
   let frFR = new basil.i18n.Locale('fr_FR')
@@ -7,6 +7,7 @@ describe.skip('locale', () => {
   let enBE = new basil.i18n.Locale('en_BE')
   let enGB = new basil.i18n.Locale('en_GB')
 
+  let de = new basil.i18n.Locale('de')
   let deBE = new basil.i18n.Locale('de_BE')
 
   let nl = new basil.i18n.Locale('nl')
@@ -44,14 +45,41 @@ describe.skip('locale', () => {
     expect(() => basil.i18n.locale = null).toThrow()
   })
 
-  /**
-   * Make sure the basic group validation works
-   */
-  it.only(`set 'de' in group ['en', 'fr', 'nl']`, () => {
-    // basil.i18n.locales = [en, fr, nl]
-    // expect(() => basil.i18n.locale = en).toThrow()
-    // expect(basil.i18n.locale).toBe(en)
+  ///////////////////////////////////////////////////////////////////////////////////
+  // 
+  // Matching process
+  // 
+  ///////////////////////////////////////////////////////////////////////////////////
 
-    // expect(() => basil.i18n.locale = 'de').toThrow()
+  it.only(`[en, fr, nl] + fr => [fr, nl] => fr`, () => {
+    basil.i18n.locales = [en, fr, nl]
+    basil.i18n.locale = fr
+
+    basil.i18n.locales = [fr, nl]
+    expect(basil.i18n.locale).toBe(fr)
+  })
+  
+  it.only(`[en, fr, nl] + fr => [en, nl] => en`, () => {
+    basil.i18n.locales = [en, fr, nl]
+    basil.i18n.locale = fr
+
+    basil.i18n.locales = [en, nl]
+    expect(basil.i18n.locale).toBe(en)
+  })
+  
+  it.only(`[en, fr, nl] + fr => [en, fr_FR, nl] => fr_FR`, () => {
+    basil.i18n.locales = [en, fr, nl]
+    basil.i18n.locale = fr
+
+    basil.i18n.locales = [en, frFR, nl]
+    expect(basil.i18n.locale).toBe(frFR)
+  })
+
+  it.only(`[en, fr, nl] + fr => [en, de, nl] => en`, () => {
+    basil.i18n.locales = [en, fr, nl]
+    basil.i18n.locale = fr
+
+    basil.i18n.locales = [en, de, nl]
+    expect(basil.i18n.locale).toBe(en)
   })
 })
