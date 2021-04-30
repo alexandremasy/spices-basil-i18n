@@ -30,6 +30,32 @@ import { basil } from '@spices/basil'
  * @class
  */
 export default class Locale {
+  /**
+   * Parse the given value in order to convert it to a Locale
+   * 
+   * @param {String|Locale} value 
+   * @returns {Locale}
+   * @static
+   */
+  static parse(value){
+    // Nil -> Error
+    if (basil.isNil(value)){
+      throw `[basil.i18n.Locale] Not a valid value for a Locale: ${value}`
+    }
+    
+    // String -> Locale
+    if (basil.isString(value)){
+      return new Locale(value)
+    }
+    
+    // Locale -> Skip
+    if (value instanceof Locale){
+      return value
+    }
+    
+    // Other -> Error
+    throw `[basil.i18n.Locale] Not a valid value for a Locale: ${value}`
+  }
 
   /**
    * @constructor

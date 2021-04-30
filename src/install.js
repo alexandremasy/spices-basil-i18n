@@ -1,7 +1,5 @@
 import currency from './utils/currency'
 import date from './utils/date'
-import locale from './utils/locale'
-import locales from './utils/locales'
 import number from './utils/number'
 import i18nLocaleController from './core/locale'
 
@@ -17,21 +15,21 @@ export default {
     Object.keys(vos).forEach(k => scope[k] = vos[k])
 
     // Options
-    let fallback = 'en-GB'
     Object.defineProperty(scope, 'options', {
       value: {
         locale: {
-          fallback: new scope.Locale(basil.get(options, 'locale.fallback', fallback)),
           key: basil.get(options, 'locale.key', 'basil.i18n.locale'),
+          matcher: basil.get(options, 'locale.matcher', null),
           persistent: basil.get(options, 'locale.persistent', false) === true,
-          value: new scope.Locale(basil.get(options, 'locale.value', basil.get(global, 'window.navigator.language', fallback)))
+          priority: basil.get(options, 'locale.priority', scope.Priority.LOCALE),
+          // value: new scope.Locale(basil.get(options, 'locale.value', basil.get(global, 'window.navigator.language', fallback)))
         },
-        locales: basil.get(options, 'locales', [] )
+        // locales: basil.get(options, 'locales', [] )
       }
     })
     Object.freeze(scope.options)
     Object.freeze(scope.options.locale)
-    Object.freeze(scope.options.locales)
+    // Object.freeze(scope.options.locales)
 
     // Utils
     currency(basil, scope, scope.options)
@@ -40,10 +38,24 @@ export default {
 
     // Locales
     const ctrl = new i18nLocaleController(basil, scope, scope.options)
-    scope.ctrl = ctrl
+    scope.ctrl = ctrl // @temp for dev
 
-    locales(basil, scope, scope.options, ctrl)
-    locale(basil, scope, scope.options, ctrl)
+    Object.defineProperty(scope, 'fallback', {
+      enumerable: true,
+      get: () => ctrl.fallback,
+      set: (value) => ctrl.fallback = value
+    })
 
+    Object.defineProperty(scope, 'locale', {
+      enumerable: true,
+      get: () => ctrl.locale,
+      set: (value) => ctrl.locale = value
+    })
+
+    Object.defineProperty(scope, 'locales', {
+      enumerable: true,
+      get: () => ctrl.locales,
+      set: (value) => ctrl.locales = value
+    })
   }
 }
