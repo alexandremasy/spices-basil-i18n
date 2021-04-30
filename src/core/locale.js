@@ -43,9 +43,8 @@ export default class i18nLocaleController {
     let validity = this._isLocaleValid(value)
     this._reportLocaleValidity(validity, value, 'basil.i18n.locale')
     this._fallback = value
-    console.log('fallback', value);
 
-    // @todo Trigger the matching process
+    this.evaluate()
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -140,7 +139,7 @@ export default class i18nLocaleController {
     let validity = this._isLocalesValid(value)
     this._reportLocalesValidity(validity, value)
     this._locales = value
-    console.log('>locales', value.map(e => e.toString()))
+    // console.log('>locales', value.map(e => e.toString()))
 
     this.evaluate()
   }
@@ -199,16 +198,16 @@ export default class i18nLocaleController {
       this.navigator
     ]
 
-    console.table(p.map(e => {
-      return {
-        value: e ? e.toString() : e,
-        valid: this._isLocaleValid(e)
-      }
-    }))
+    // console.table(p.map(e => {
+    //   return {
+    //     value: e ? e.toString() : e,
+    //     valid: this._isLocaleValid(e)
+    //   }
+    // }))
     
     p = p.filter(e => !this._parent.isNil(e) && !this._parent.isNil(e.langtag))
     p = p.find(l => this._isLocaleValid(l) === 0)
-    console.log('evaluate >', p)
+    // console.log('evaluate >', p)
     this.locale = p
   }
 
@@ -278,12 +277,6 @@ export default class i18nLocaleController {
       }
     }
     
-    console.log(`matcher
-    priority: ${priority}
-    locale: ${this.locale ? this.locale.toString(): this.locale}
-    locales: ${this.hasLocales ? this.locales.map(e => e.toString()) : []}
-    ret: ${ret}`)
-
     return ret ? ret[0] : ret
   }
 
@@ -382,7 +375,6 @@ export default class i18nLocaleController {
    * - Utils for the unit tests
    */
   reset(){
-    console.info('/!\\ Reset')
     this._locales = null
     // this.evaluate()
   }

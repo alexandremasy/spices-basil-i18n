@@ -51,7 +51,7 @@ describe('locale', () => {
   // 
   ///////////////////////////////////////////////////////////////////////////////////
 
-  it.only(`[en, fr, nl] + fr => [fr, nl] => fr`, () => {
+  it(`[en, fr, nl] + fr => [fr, nl] => fr`, () => {
     basil.i18n.locales = [en, fr, nl]
     basil.i18n.locale = fr
 
@@ -59,7 +59,7 @@ describe('locale', () => {
     expect(basil.i18n.locale).toBe(fr)
   })
   
-  it.only(`[en, fr, nl] + fr => [en, nl] => en`, () => {
+  it(`[en, fr, nl] + fr => [en, nl] => en`, () => {
     basil.i18n.locales = [en, fr, nl]
     basil.i18n.locale = fr
 
