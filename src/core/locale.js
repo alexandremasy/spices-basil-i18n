@@ -1,4 +1,5 @@
 import Locale from '../vos/locale'
+import Priority from '../vos/priority'
 
 const VALID = 0x00000
 const INVALID_LIST = 0x00001
@@ -139,9 +140,9 @@ export default class i18nLocaleController {
     let validity = this._isLocalesValid(value)
     this._reportLocalesValidity(validity, value)
     this._locales = value
+    console.log('>locales', value.map(e => e.toString()))
 
     this.evaluate()
-    // this.locale = this._getDefaultLocale(this._locale)
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -198,15 +199,16 @@ export default class i18nLocaleController {
       this.navigator
     ]
 
-    // console.table(p.map(e => {
-    //   return {
-    //     value: e,
-    //     valid: this._isLocaleValid(e)
-    //   }
-    // }))
+    console.table(p.map(e => {
+      return {
+        value: e ? e.toString() : e,
+        valid: this._isLocaleValid(e)
+      }
+    }))
     
     p = p.filter(e => !this._parent.isNil(e) && !this._parent.isNil(e.langtag))
     p = p.find(l => this._isLocaleValid(l) === 0)
+    console.log('evaluate >', p)
     this.locale = p
   }
 
@@ -218,13 +220,15 @@ export default class i18nLocaleController {
    * @returns {Array.Locale}
    */
   getMatchingCountry(locale, list) {
-    this._reportLocaleValidity(this._isLocaleValid(locale), locale, 'basil.i18n.getMatchingCountry')
-    this._reportLocalesValidity(this._isLocalesValid(list), list, 'basil.i18n.getMatchingCountry')
+    let validity = this._isLocalesValid(list)
+    if (validity !== 0){
+      return []
+    }
 
     let country = locale.country
     return country ?
-      list.filter(e => e.country && e.country.toString() === country) :
-      list
+           list.filter(e => e.country && e.country.toString() === country) :
+           list
   }
 
   /**
@@ -235,68 +239,52 @@ export default class i18nLocaleController {
    * @returns {Array.Locale}
    */
   getMatchingLocale(locale, list) {
-    this._reportLocaleValidity(this._isLocaleValid(locale), locale, 'basil.i18n.getMatchingCountry')
-    this._reportLocalesValidity(this._isLocalesValid(list), list, 'basil.i18n.getMatchingCountry')
-
+    let validity = this._isLocalesValid(list)
+    if (validity !== 0){
+      return []
+    }
+    
     let lang = locale.lang
     return lang ?
-      list.filter(e => e.lang && e.lang.toString() === lang) :
-      list
+           list.filter(e => e.lang && e.lang.toString() === lang) :
+           list
   }
 
   /**
    * Find an appriopriate locale in the list of locales.
    * The matching mechanism will be set as the priority option
    * 
-   * 
-   */
-  matcher(){
-    let cm = this._parent.get(this._options, 'locale.matcher', null)
-
-
-    if (this._options.locale){
-
-    }
-
-    return null
-  }
-
-  
-
-  /**
-   * Find out the proper default locale
-   * 1. Check if the value is persisted and is valid
-   * 2. Check if the requested locale is valid (either the given value or the options defined one)
-   * 3. Or use the fallback
-   * 4. Or use the first available value in locales
-   * 
-   * @private
    * @returns {Locale}
    */
-  _getDefaultLocale(value) {
+  matcher(){
+    let ret = null
+    let priority = this._options.locale.priority
     
-    let ret = [
-      this.stored,
-      value ? value : this._options.locale.value,
-      this._options.locale.fallback,
-      this.hasLocales ? this.locales[0] : null
-    ]
-    .map(e => this._parent.isString(e) ? new this._scope.Locale(e) : e)
-    .filter(e => !this._parent.isNil(e) && !this._parent.isNil(e.langtag))
-    .find(l => this._isLocaleValid(l) === 0)
+    // Custom Matcher
+    let cm = this._parent.get(this._options, 'locale.matcher', null)
+    if (cm && this._parent.isFunction(cm)){
+      ret = cm.call(cm, this.locale, this.locales, this._options)
+      this._reportLocalesValidity(this._isLocalesValid(ret), ret, 'basil.i18n.matcher')
+    }
+    else{
+      // Priority on Country
+      if (this.hasLocales && priority === Priority.COUNTRY){
+        ret = this.getMatchingCountry(this.locale, this._locales)
+      }
+      
+      // Priority on Locale
+      if (this.hasLocales && priority === Priority.LOCALE){
+        ret = this.getMatchingLocale(this.locale, this._locales)
+      }
+    }
     
-    // console.group('getDefaultLocale');
-    // console.table([
-    //   (this.hasLocales ? this.locales.map(e => e.toString()) : []).join(','),
-    //   this.stored,
-    //   value ? value : this._options.locale.value,
-    //   this._options.locale.fallback,
-    //   this.hasLocales ? this.locales[0] : null,
-    //   ret
-    // ].map(e => this._parent.isString(e) ? new this._scope.Locale(e).toString() : e))
-    // console.log(ret)
-    // console.groupEnd('getDefaultLocale');
-    return ret
+    console.log(`matcher
+    priority: ${priority}
+    locale: ${this.locale ? this.locale.toString(): this.locale}
+    locales: ${this.hasLocales ? this.locales.map(e => e.toString()) : []}
+    ret: ${ret}`)
+
+    return ret ? ret[0] : ret
   }
 
   /**
@@ -341,7 +329,7 @@ export default class i18nLocaleController {
        ret += INVALID_ITEM
     }
 
-    if (this.hasLocales && this._locales.some(l => l.langtag === value.langtag) === false){
+    if (isset && this.hasLocales && this._locales.some(l => l.toString() === value.toString()) === false){
       ret += INVALID_VALUE
     }
 
@@ -394,9 +382,9 @@ export default class i18nLocaleController {
    * - Utils for the unit tests
    */
   reset(){
-    this._locale = this._getDefaultLocale()
+    console.info('/!\\ Reset')
     this._locales = null
-    // console.info('i18n.reset > ', this._locale.toString())
+    // this.evaluate()
   }
 
   /**
@@ -411,7 +399,4 @@ export default class i18nLocaleController {
 
     localStorage.setItem(this._options.locale.key, this._locale)
   }
-
-  
-
 }

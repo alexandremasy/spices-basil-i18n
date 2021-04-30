@@ -1,9 +1,13 @@
-describe.skip('locales', () => {
+describe('locales', () => {
+
+  afterEach(() => {
+    basil.i18n.ctrl.reset()
+  })
   
   /**
    * Make sure the default value is null
    */
-  it(`default []`, () => {
+  it(`default null`, () => {
     expect(basil.i18n.locales).toBe(null)
   })
 

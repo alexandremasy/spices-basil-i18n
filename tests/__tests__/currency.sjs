@@ -8,6 +8,11 @@ let tests = [
 ]
 
 describe('currency', () => {
+
+  afterEach(() => {
+    basil.i18n.ctrl.reset()
+  })
+  
   tests.forEach(t => {
     let opts = Object.keys(t.options).map(o => {
       return `${o}: ${t.options[o]}`

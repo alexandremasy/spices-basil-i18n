@@ -1,4 +1,4 @@
-describe.only('i18ncontroller', () => {
+describe('i18ncontroller', () => {
   let en = new basil.i18n.Locale('en')
   let fr = new basil.i18n.Locale('fr')
   let frBE = new basil.i18n.Locale('fr_BE')
@@ -7,6 +7,10 @@ describe.only('i18ncontroller', () => {
   let enBE = new basil.i18n.Locale('en_BE')
   let enGB = new basil.i18n.Locale('en_GB')
   let nlBE = new basil.i18n.Locale('nl_BE')
+
+  afterEach(() => {
+    basil.i18n.ctrl.reset()
+  })
 
   /**
    * Country
@@ -68,5 +72,12 @@ describe.only('i18ncontroller', () => {
     let value = nlBE
     let expected = []
     expect(basil.i18n.ctrl.getMatchingLocale(value, locales)).toEqual(expect.arrayContaining(expected))
+  })
+
+  /**
+   * Evaluation
+   */
+  it(``, () => {
+
   })
 })
