@@ -5,25 +5,78 @@
 
 ## Installation
 
-1. Install the package → yarn add @spices/basil-i18n
-
+1. Install the package → `yarn add @spices/basil-i18n`
 2. Install the plugin
 
-   ```js
-   import { basil, install } from '@spices/basil'
-   
-   Vue.use(install)
-   basil.use(basilI18n)
-   ```
+```js
+import { basil, install } from '@spices/basil'
+import { install as basilI18n } from '@spices/basil-i18n'
 
-------
+Vue.use(install)
+basil.use(basilI18n, options:Object)
+```
+
+
+## Options
+
+Alongside the installation, an options object can be used to customize the behavior of the i18n plugin. It is also possible to update the options via the `basil.i18n.options` methods. 
+
+
+
+**Syntax**
+
+```js
+basil.i18n.options({options:Object})
+```
+
+
+
+**Parameters**
+
+`options.locale.key:String = 'basil.i18n.locale'`
+The value to persist the locale information in the locale storage.
+
+ 
+
+`options.locale.matcher:Function`
+
+Allows you to override the suggestion mechanism of a locale in the matching process. This function will be executed during the definition of possible locales (more info in the matching section) when starting the plugin and every time the locales changes. 
+
+```JS
+function(locale:Locale, locales:Array.Locale, options:Options):Array.Locale
+```
+
+
+
+`options.locale.persistent:Boolean = false`
+Whether or not to store the locale value in the local storage.
+
+ 
+
+`options.locale.priority:String = basil.i18n.Priority.LOCALE`
+
+Whether to prioritize the country or the locale when trying to find out the appropriate locale for the user. 
+Available values:
+
+- basil.i18n.Priority.COUNTRY Will try to find a match based on the country. 
+- basil.i18n.Priority.LOCALE Will try to find a match based on the locale. 
+
+
 
 ## API
 
+
+
 ## currency
 
+Format the given number into a human currency representation.
+
+
+
+**Syntax**
+
 ```js
-basil.i18n.currency(value, options:Object{
+basil.i18n.currency(value:Number, options:Object{
   [compact:Boolean = false],
   [currency:String = basil.i18n.Currencies.EURO],
   [display:String = basil.i18n.Formats.SYMBOL],
@@ -31,13 +84,13 @@ basil.i18n.currency(value, options:Object{
   [group:Boolean = true],
   [locale:String = 'en'],
   [significant:Integer = 21],
-  [sign:NumberSigns = basil.i18n.NumberSigns.AUTO],
+  [sign:NumberSigns = basil.i18n.NumberSigns.AUTO]
 })
 ```
 
-Format the given number into a human currency representation.
 
-### Examples
+
+**Examples**
 
 ```js
 let value = 12345.6789
@@ -47,8 +100,9 @@ basil.i18n.currency(value, { locale: 'fr' }) // "12 345,6789 €"
 basil.i18n.currency(value, { currency: basil.i18n.Currencies.US_DOLLAR }) // "$12,345.6789"
 ```
 
-### Arguments
 
+
+**Parameters**
 
 `value` **Required**
 
@@ -114,18 +168,28 @@ When to display the sign for the number; defaults to `basil.NumberSigns.AUTO`
 
 
 
-### Returns
+**Returns**
 
-The formatted value as a String.
+The formatted value as a `String`.
 
 
-
-------
 
 ## date
 
+Format a given date into a human representation.
+
+For convenience, multiple aliases exist. All the version shares the same API, just the default style is altered:
+
+- `basil.i18n.date` Will format with the style `basil.i18n.DateStyles.DATE`
+- `basil.i18n.datetime`  Will format with the style `basil.i18n.DateStyles.DATETIME`
+- `basil.i18n.time` Will format with the style `basil.i18n.DateStyles.TIME`
+
+
+
+**Syntax**
+
 ```js
-basil.i18n.date(value, options:Object{
+basil.i18n.date(value:Date, options:Object{
   [day],
   [era],
   [hour],
@@ -141,17 +205,9 @@ basil.i18n.date(value, options:Object{
 }):String
 ```
 
-Format a given date into a human representation.
-
-For convenience, multiple aliases exist. All the version shares the same API, just the default style is altered:
-
-- `basil.i18n.date` Will format with the style `basil.i18n.DateStyles.DATE`
-- `basil.i18n.datetime`  Will format with the style `basil.i18n.DateStyles.DATETIME`
-- `basil.i18n.time` Will format with the style `basil.i18n.DateStyles.TIME`
 
 
-
-### **Examples**
+**Examples**
 
 ```js
 let value = new Date()
@@ -164,11 +220,13 @@ basil.date(value, { weekday: basil.DateFormats.LONG }) // "Wednesday 04/14/2021"
 
 
 
-### **Arguments**
+**Parameters**
 
 `value` **Required**
 
 The value to convert. Must be a valid date.
+
+
 
 `options.day`
 
@@ -248,6 +306,8 @@ The representation of the time zone name. Possible values are:
 - `basil.i18n.Formats.SHORT` (e.g., `GMT+1`)
 
 
+
+
 `options.weekday`
 
 The representation of the weekday. Possible values are:
@@ -267,18 +327,73 @@ The representation of the year. Possible values are:
 
 
 
+**Returns**
+
+The formatted date as a `String`
 
 
 
-### **Returns**
+## fallback
 
-The formatted date as a String
+The fallback locale to use, if no valid options are found. By default, the value is `en-GB`.
 
 
 
-------
+**Syntax**
+
+```js
+basil.i18n.fallback = <basil.i18n.Locale>
+```
+
+
+
+## locale
+
+Set the current locale. 
+
+
+
+**Syntax**
+
+```js
+basil.i18n.locale = <basil.i18n.Locale>
+```
+
+This value will be used as a default for all the conversion functions when the locale param is not defined. The value must be a valid basil.i18n.Locale. 
+
+The value will be validated against the list of defined locales in basil.i18n.locales if it is defined. 
+
+
+
+## locales
+
+Set the available locales. Restrict the accepted values from `basil.i18n.locale` to ones from this list.
+
+
+
+**Syntax**
+
+```js
+basil.i18n.locales = <Array.basil.i18n.Locale>
+```
+
+All the the entries must be of type `basil.i18n.Locale`.
+
+
 
 ## number
+
+Format a given number into a human representation.
+
+For convenience, multiple aliases exist. All the version shares the same API, just the default style is altered:
+
+- `basil.i18n.number` Will format with the style `basil.i18n.NumberStyle.DECIMAL`
+- `basil.i18n.percent` Will format with the style `basil.i18n.NumberStyle.PERCENT`
+- `basil.i18n.unit` Will format with the style `basil.i18n.NumberStyle.UNIT`
+
+
+
+**Syntax**
 
 ```javascript
 basil.i18n.number(value:Number, options:Object{ 
@@ -294,17 +409,9 @@ basil.i18n.number(value:Number, options:Object{
 }):String
 ```
 
-Format a given number into a human representation.
-
-For convenience, multiple aliases exist. All the version shares the same API, just the default style is altered:
-
-- `basil.i18n.number` Will format with the style `basil.i18n.NumberStyle.DECIMAL`
-- `basil.i18n.percent` Will format with the style `basil.i18n.NumberStyle.PERCENT`
-- `basil.i18n.unit` Will format with the style `basil.i18n.NumberStyle.UNIT`
 
 
-
-### Examples
+**Examples**
 
 ```javascript
 let value = 12345.67890
@@ -318,11 +425,13 @@ basil.number( value, { compact: true }) // "12.3456789K"
 
 
 
-### **Arguments**
+**Parameters**
 
 `value` **Required**
 
-The value to convert. Must be a valid Number.
+The value to convert. Must be a valid `Number`.
+
+
 
 `options.compact`  
 
@@ -433,6 +542,49 @@ The unit to use in `basil.i18n.NumberStyle.UNIT` formatting. Possible values are
 - `basil.i18n.NumberUnits.YARD`
 - `basil.i18n.NumberUnits.YEAR`
 
-### Returns
+
+
+**Returns**
 
 The formatted value as a String.
+
+
+
+## Matcher
+
+During the initialization of the i18n plugin and every time the list of locales is changed, we need to figure out the appropriate locale for the user. With the update of locales, we also have to make sure the current locale is still valid. 
+
+For that purpose, a list of possibilities is established to select the first valid locale.  This matching process is triggered by the following events:
+
+- The plugin initialization
+- The alteration of the `basil.i18n.locales`
+- The alteration of the fallback locale `basil.i18n.fallback`
+
+The list of possibilities is established in this particular order:
+
+ 
+
+|                                                              |
+| :----------------------------------------------------------- |
+| The current `basil.i18n.locale`                              |
+| The value store in the local storage. Only if `options.locale.persistent` is set to `true` |
+| The value coming from the `options.locale.matcher` function  |
+| The value coming from the `options.i18n.fallback`            |
+| The first value in the `basil.i18n.locales`                  |
+| The navigator language `navigator.language`                  |
+
+If no value is found in the list, then an error is thrown. 
+
+
+
+### Matching priority
+
+It is not always possible to directly correlate the given locale and the list of available ones. 
+When it happens, we can set the priority on either the 
+
+e.g. with the given the following list of locales `fr_FR`, `fr_BE`, `nl_NL`, `nl`, and a locale of `nl_BE` no direct match can be found. Based on the available strategies: 
+
+| **Priority**                  | **yield**   |
+| :---------------------------- | :---------- |
+| `basil.i18n.Priority.COUNTRY` | `fr_BE`     |
+| `basil.i18n.Priority.LOCALE`  | `nl_NL, nl` |
