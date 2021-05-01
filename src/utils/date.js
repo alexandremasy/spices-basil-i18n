@@ -8,7 +8,7 @@ export default (basil, scope) => {
       day, 
       era, 
       hour, 
-      locale = scope.locale || 'en', 
+      locale = scope.locale || scope.fallback || 'en',
       minute, 
       month, 
       second, 
@@ -29,11 +29,6 @@ export default (basil, scope) => {
       console.warn(`[@spices/basil.i18n.date] Invalid style for the date formatter. Fallback to a default value. ${style}`)
     }
     
-    // Validate the locale. If unvalid, fallback to the basil.i18n.locale value
-    if (!locale || basil.isNil(locale)) {
-      locale = scope.locale
-    }
-
     // Allow the override of a defined style
     let o = Object.assign({}, style)
     if (!basil.isNil(day)){ o.day = day }

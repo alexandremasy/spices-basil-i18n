@@ -7,6 +7,14 @@ let tests = [
   { in: 123456789.123456789, out: '€123456789.123', options: { fraction: 3, group: false }},
 ]
 
+// @todo test for the locale global value.
+//  -> if the value is set use it
+//  -> if the value is set and the arg also, use the arg
+//  -> if the value is not set and the arg is set, use the arg
+//  -> if the value is not set and the arg not set, use fallback
+//  -> if the value, args and fallback are not set, use 'en'
+
+
 describe('currency', () => {
 
   afterEach(() => {

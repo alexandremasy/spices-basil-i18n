@@ -12,7 +12,7 @@ export default (basil, scope) => {
       display = Formats.SYMBOL, 
       fraction = 2, 
       group = true, 
-      locale = 'en', 
+      locale = scope.locale || scope.fallback || 'en', 
       significant, 
       sign = NumberSigns.AUTO 
     } = options

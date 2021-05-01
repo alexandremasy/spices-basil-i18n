@@ -23,7 +23,7 @@ export default (basil, scope) => {
       display = Formats.SHORT, 
       fraction = 2, 
       group = true, 
-      locale, 
+      locale = scope.locale || scope.fallback || 'en',
       sign = NumberSigns.AUTO, 
       significant, 
       style = NumberStyles.DECIMAL, 
