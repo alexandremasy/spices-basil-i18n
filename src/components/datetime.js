@@ -63,7 +63,7 @@ export default {
       minute: props.minute,
       month: props.month,
       second: props.second,
-      style: parent.$basil.i18n.DateStyles.DATE,
+      style: parent.$basil.i18n.DateStyles.DATETIME,
       timezone: props.timezone,
       weekday: props.weekday,
       year: props.year

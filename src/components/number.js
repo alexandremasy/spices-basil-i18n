@@ -26,10 +26,6 @@ export default {
       type: Number
     },
 
-    style: {
-      type: String
-    },
-
     tag: {
       type: [String, Boolean, Object],
       default: 'span'
@@ -56,7 +52,7 @@ export default {
       locale,
       sign: props.sign,
       significant: props.significant,
-      style: props.style,
+      style: parent.$basil.i18n.NumberStyles.DECIMAL,
       unit: props.unit
     })
 

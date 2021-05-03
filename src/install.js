@@ -2,8 +2,7 @@ import currency from './utils/currency'
 import date from './utils/date'
 import number from './utils/number'
 import i18nLocaleController from './core/locale'
-import i18nNumberComponent from './components/number'
-import i18nDateComponent from './components/date'
+import installComponent from './components'
 
 import * as vos from './vos'
 
@@ -24,14 +23,11 @@ export default {
           matcher: basil.get(options, 'locale.matcher', null),
           persistent: basil.get(options, 'locale.persistent', false) === true,
           priority: basil.get(options, 'locale.priority', scope.Priority.LOCALE),
-          // value: new scope.Locale(basil.get(options, 'locale.value', basil.get(global, 'window.navigator.language', fallback)))
         },
-        // locales: basil.get(options, 'locales', [] )
       }
     })
     Object.freeze(scope.options)
     Object.freeze(scope.options.locale)
-    // Object.freeze(scope.options.locales)
 
     // Utils
     currency(basil, scope, scope.options)
@@ -62,9 +58,7 @@ export default {
 
     // Components
     if (!!basil.$vue){
-      basil.$vue.component('i18n-number', i18nNumberComponent)
-      
-      basil.$vue.component('i18n-date', i18nDateComponent)
+      installComponent(basil.$vue)
     }
   }
 }

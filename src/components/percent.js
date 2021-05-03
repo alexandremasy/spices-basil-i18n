@@ -1,33 +1,29 @@
 export default {
-  name: 'i18n-datetime',
+  name: 'i18n-percent',
   functional: true,
   props: {
-    day: {
+    compact: {
+      type: Boolean,
+    },
+
+    display: {
       type: String
     },
 
-    era: {
-      type: String
-    },
-
-    hour: {
-      type: String
+    group: {
+      type: Boolean
     },
 
     locale: {
       type: String
     },
 
-    minute: {
+    sign: {
       type: String
     },
 
-    month: {
-      type: String
-    },
-
-    second: {
-      type: String
+    significant: {
+      type: Number
     },
 
     tag: {
@@ -35,38 +31,29 @@ export default {
       default: 'span'
     },
 
-    timezone: {
+    unit: {
       type: String
     },
 
     value: {
-      type: Date
+      type: Number,
+      required: true
     },
-
-    weekday: {
-      type: String
-    },
-
-    year: {
-      type: String
-    }
   },
 
   render(h, { props, parent, data }) {
     let locale = props.locale || parent.$basil.i18n.locale
     let tag = (!!props.tag && props.tag !== true) || props.tag === false ? props.tag : 'span'
-    let value = parent.$basil.i18n.date(props.value, {
-      day: props.day,
-      era: props.era,
-      hour: props.hour,
+    let value = parent.$basil.i18n.number(props.value, {
+      compact: props.compact,
+      display: props.display,
+      fraction: props.fraction,
+      group: props.group,
       locale,
-      minute: props.minute,
-      month: props.month,
-      second: props.second,
-      style: parent.$basil.i18n.DateStyles.DATE,
-      timezone: props.timezone,
-      weekday: props.weekday,
-      year: props.year
+      sign: props.sign,
+      significant: props.significant,
+      style: parent.$basil.i18n.NumberStyles.PERCENT,
+      unit: props.unit
     })
 
     return tag ?
