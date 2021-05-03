@@ -56,7 +56,7 @@ export default {
       group: props.group,
       locale,
       sign: props.sign,
-      significant: props.significant
+      significant: props.significant,
     })
 
     return tag ?
