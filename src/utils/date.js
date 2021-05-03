@@ -52,11 +52,15 @@ export default (basil, scope) => {
     if (o.weekday == Formats.NONE){ delete o.weekday }
     if (o.year == Formats.NONE){ delete o.year }
 
+    if (basil.isObject(locale)){
+      locale = locale.toString()
+    }
+
     // console.group('date');
     // console.log(`locale: ${locale}`)
     // console.log(`o: ${JSON.stringify(o)}`);
     // console.log(`value: ${value}`);
-    // console.groupEnd('number');
+    // console.groupEnd('date');
     let ret = new Intl.DateTimeFormat(locale, o).format(value)
     ret = ret.replace(',', '')
     ret = ret.formatter ? ret.formatter(ret) : ret

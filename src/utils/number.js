@@ -79,6 +79,10 @@ export default (basil, scope) => {
     if (isStyleUnit && display){ o.unitDisplay = display }
     if (fraction){ o.maximumFractionDigits = Math.min(20, Math.max(fraction, 0)) }
     if (significant){ o.maximumSignificantDigits = Math.min(21, Math.max(significant, 1)) }
+
+    if (basil.isObject(locale)) {
+      locale = locale.toString()
+    }
     
     // console.group('number');
     // console.log(`locale: ${locale}`)

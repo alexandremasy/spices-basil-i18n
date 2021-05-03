@@ -175,9 +175,11 @@ export default class i18nLocaleController {
    *  The stored locale
    */
   get stored(){
-    return this.persistent && this.hasLocalStorage ? 
-           Locale.parse(localStorage.getItem(this._options.locale.key)) : 
+    let ret = this.persistent && this.hasLocalStorage ? 
+           localStorage.getItem(this._options.locale.key) : 
            null
+
+    return ret ? Locale.parse(ret) : ret
   }
 
   //////////////////////////////////////////////////////

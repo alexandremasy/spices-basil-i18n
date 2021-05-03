@@ -66,11 +66,15 @@ export default (basil, scope) => {
     if (fraction) { o.maximumFractionDigits = Math.min(20, Math.max(fraction, 0)) }
     if (significant) { o.maximumSignificantDigits = Math.min(21, Math.max(significant, 1)) }
 
+    if (basil.isObject(locale)) {
+      locale = locale.toString()
+    }
+
     // console.group('currency');
     // console.log(`locale: ${locale}`)
     // console.log(`o: ${JSON.stringify(o)}`);
     // console.log(`value: ${value}`);
-    // console.groupEnd('number');
+    // console.groupEnd('currency');
     let ret = new Intl.NumberFormat(locale, o).format(value)
 
     // Custom currency
