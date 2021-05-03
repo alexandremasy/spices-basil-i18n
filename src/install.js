@@ -2,6 +2,8 @@ import currency from './utils/currency'
 import date from './utils/date'
 import number from './utils/number'
 import i18nLocaleController from './core/locale'
+import i18nNumberComponent from './components/number'
+import i18nDateComponent from './components/date'
 
 import * as vos from './vos'
 
@@ -57,5 +59,12 @@ export default {
       get: () => ctrl.locales,
       set: (value) => ctrl.locales = value
     })
+
+    // Components
+    if (!!basil.$vue){
+      basil.$vue.component('i18n-number', i18nNumberComponent)
+      
+      basil.$vue.component('i18n-date', i18nDateComponent)
+    }
   }
 }
