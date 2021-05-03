@@ -118,7 +118,7 @@ export default class Locale {
   get iso() {
     let ret = []
     if (this._lang && this._lang.valid) { ret.push(this._lang) }
-    if (this._country && this._country.valid) { ret.push(this._country.toUpperCase()) }
+    if (this._country && this._country.valid) { ret.push(this._country.toString().toUpperCase()) }
 
     return ret.join('_')
   }
