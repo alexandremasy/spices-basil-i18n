@@ -17,6 +17,7 @@ export default class i18nLocaleController {
    * @param {*} options 
    */
   constructor(basil, scope, options = {}){
+    this._currency = null
     this._options = options
     this._parent = basil
     this._scope = scope
@@ -25,6 +26,20 @@ export default class i18nLocaleController {
     this._locales = null
 
     this.evaluate()
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * @property {Object} currency
+   * @returns {Object}
+   * The currency to use
+   */
+   get currency(){
+    return this._currency
+  }
+  set currency(value){
+    this._currency = value
   }
 
   ///////////////////////////////////////////////////////////////////////////////

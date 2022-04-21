@@ -18,7 +18,7 @@
   "license": "MIT",
   "main": "dist/spices-basil-i18n.min.js.js",
   "module": "dist/spices-basil-i18n.esm.min.js",
-  "name": "@spices/basil-i18n",
+  "name": "@spices/basil-ic-i18n",
   "nodemonConfig": {
     "exec": "yarn bundle",
     "watch": "src"
@@ -28,11 +28,11 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.infinity-commerce.io/"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:alexandremasy/spices-basil-i18n.git"
+    "url": "git+ssh://git@github.com:vlntngrgr/spices-basil-i18n.git"
   },
   "scripts": {
     "bundle": "rollup -c",
@@ -41,5 +41,5 @@
     "test": "jest",
     "prepublish": "yarn bundle"
   },
-  "version": "1.3.0"
+  "version": "1.4.0"
 }

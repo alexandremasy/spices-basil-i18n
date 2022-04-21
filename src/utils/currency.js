@@ -8,7 +8,7 @@ export default (basil, scope) => {
   const currency = (value, options = {}) => {
     let { 
       compact = false, 
-      currency = Currencies.EURO, 
+      currency = basil.get(scope, 'defaultCurrency', Currencies.EURO),
       display = Formats.SYMBOL, 
       fraction = 2, 
       group = true, 
@@ -38,7 +38,7 @@ export default (basil, scope) => {
 
     // Invalid currency => EURO and replace with custom value
     if (!Currencies.isValid(currency)){
-      currency = Currencies.EURO
+      currency = basil.get(scope, 'defaultCurrency', Currencies.EURO)
     }
 
     // Display validation
