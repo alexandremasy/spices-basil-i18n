@@ -1,3 +1,4 @@
+import Currencies from '../vos/number-currencies'
 import Locale from '../vos/locale'
 import Priority from '../vos/priority'
 
@@ -39,7 +40,12 @@ export default class i18nLocaleController {
     return this._currency
   }
   set currency(value){
-    this._currency = value
+    let d = [
+      Currencies.getByName(value),
+      Currencies.getByAlpha(value),
+      Currencies.getByNumeric(value),
+    ].find(d => !this._parent.isNil(d))
+    this._currency = Currencies.isValid(d) ? d : null
   }
 
   ///////////////////////////////////////////////////////////////////////////////

@@ -59,7 +59,7 @@ export default {
     Object.defineProperty(scope, 'defaultCurrency', {
       enumerable: true,
       get: () => ctrl.currency,
-      set: (value) => ctrl.currency = vos.Currencies.getByAlpha(value) 
+      set: (value) => ctrl.currency = value 
     })
 
     // Components
