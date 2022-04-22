@@ -56,6 +56,12 @@ export default {
       set: (value) => ctrl.locales = value
     })
 
+    Object.defineProperty(scope, 'defaultCurrency', {
+      enumerable: true,
+      get: () => ctrl.currency,
+      set: (value) => ctrl.currency = value 
+    })
+
     // Components
     if (!!basil.$vue){
       installComponent(basil.$vue)

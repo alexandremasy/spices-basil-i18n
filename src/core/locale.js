@@ -1,3 +1,4 @@
+import Currencies from '../vos/number-currencies'
 import Locale from '../vos/locale'
 import Priority from '../vos/priority'
 
@@ -17,6 +18,7 @@ export default class i18nLocaleController {
    * @param {*} options 
    */
   constructor(basil, scope, options = {}){
+    this._currency = null
     this._options = options
     this._parent = basil
     this._scope = scope
@@ -25,6 +27,25 @@ export default class i18nLocaleController {
     this._locales = null
 
     this.evaluate()
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * @property {Object} currency
+   * @returns {Object}
+   * The currency to use
+   */
+   get currency(){
+    return this._currency
+  }
+  set currency(value){
+    let d = [
+      Currencies.getByName(value),
+      Currencies.getByAlpha(value),
+      Currencies.getByNumeric(value),
+    ].find(d => !this._parent.isNil(d))
+    this._currency = Currencies.isValid(d) ? d : null
   }
 
   ///////////////////////////////////////////////////////////////////////////////
